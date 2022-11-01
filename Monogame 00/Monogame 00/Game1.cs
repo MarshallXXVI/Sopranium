@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Monogame_00.Models;
+using Monogame_00.Source;
+using Monogame_00.Source.Engine;
+using Monogame_00.Sprites;
 
 namespace Monogame_00
 {
     public class Game1 : Game
     {
         private GraphicsDeviceManager mGraphics;
-        private SpriteBatch mSpriteBatch;
-        private List<Sprite> mSprites;
+        //private SpriteBatch mSpriteBatch;
+        private World mWorld;
+        private int mColums;
+        private int mRows;
 
         public Game1()
         {
@@ -22,30 +29,20 @@ namespace Monogame_00
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            mColums = mGraphics.PreferredBackBufferWidth;
+            mRows = mGraphics.PreferredBackBufferHeight;
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            mSpriteBatch = new SpriteBatch(GraphicsDevice);
-            var texture = Content.Load<Texture2D>("Ye");
-            var texture2 = Content.Load<Texture2D>("240px-Unilogo");
-
-            mSprites = new List<Sprite>()
-            {
-                new Sprite(texture)
-                {
-                    mPosition = new Vector2(100, 100),
-                    mInput = new input()
-                    {
-                        UpKeys = Keys.W,
-                        DownKeys = Keys.S,
-                        LeftKeys = Keys.A,
-                        RightKeys = Keys.D,
-                    }
-                }
-            };
+            Globals.mScreenWidth = mColums;
+            Globals.mScreenHeight = mRows;
+            Globals.mContent = this.Content;
+            Globals.mSpriteBatch = new SpriteBatch(GraphicsDevice);
+            Globals.mEffect = Globals.mContent.Load<Effect>("Effects/NormalCopy");
+            Globals.mMouse = new McMouseControl();
+            mWorld = new World();
         }
         // TODO: use this.Content to load your game content here
 
@@ -55,12 +52,10 @@ namespace Monogame_00
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {    Exit();}
 
-
+            mWorld.Update(gameTime);
+            Globals.mMouse.Update();
             // TODO: Add your update logic here
-            foreach (var sprite in mSprites)
-            {
-                sprite.Update();
-            }
+
 
             base.Update(gameTime);
         }
@@ -71,13 +66,15 @@ namespace Monogame_00
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            mSpriteBatch.Begin();
-            foreach (var sprite in mSprites )
-            {
-                sprite.Draw(mSpriteBatch);
-            }
-            mSpriteBatch.End();
+            Globals.mSpriteBatch.Begin();
+            mWorld.Draw(Globals.mSpriteBatch);
+            Globals.mSpriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public virtual void ChangeGameState(object info)
+        {
+            Globals.mGameState = Convert.ToInt32(info, Globals.mCulture);
         }
     }
 }
