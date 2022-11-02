@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 #endregion
 
-namespace Monogame_00
+namespace Monogame00
 {
     public class Globals
     {

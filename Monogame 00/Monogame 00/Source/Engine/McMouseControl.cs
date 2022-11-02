@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 #endregion
 
-namespace Monogame_00
+namespace Monogame00
 {
     public class McMouseControl
     {

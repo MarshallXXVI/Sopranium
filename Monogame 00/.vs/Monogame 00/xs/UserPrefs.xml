@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{C099DA86-A17B-4F19-9BD9-BB0125A1CD2D}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Monogame 00/Content/Content.mgcb">
+    <Files>
+      <File FileName="Monogame 00/Content/Content.mgcb" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Monogame 00" expanded="True" selected="True">
+            <Node name="Monogame" expanded="True">
+              <Node name="Content" expanded="True" />
+              <Node name="Managers" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Monogame PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>

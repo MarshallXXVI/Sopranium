@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace Monogame_00.Models
+namespace Monogame00.Models
 {
     public class Spots
     {

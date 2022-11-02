@@ -25,12 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:240px-Unilogo.png
 
-#begin Effects/NormalCopy.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/NormalCopy.fx
-
 #begin Player/down.png
 /importer:TextureImporter
 /processor:TextureProcessor

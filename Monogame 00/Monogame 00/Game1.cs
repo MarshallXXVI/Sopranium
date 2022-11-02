@@ -4,12 +4,9 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Monogame_00.Models;
-using Monogame_00.Source;
-using Monogame_00.Source.Engine;
-using Monogame_00.Sprites;
+using Monogame00.Sprites;
 
-namespace Monogame_00
+namespace Monogame00
 {
     public class Game1 : Game
     {

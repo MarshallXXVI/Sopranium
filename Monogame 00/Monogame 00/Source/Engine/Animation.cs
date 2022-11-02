@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Monogame_00.Source.Engine
+namespace Monogame00.Source.Engine
 {
     public class Animation
     {

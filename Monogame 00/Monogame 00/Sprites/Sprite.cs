@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Monogame_00.Managers;
-using Monogame_00.Source.Engine;
+using Monogame00.Managers;
+using Monogame00.Source.Engine;
 
-namespace Monogame_00.Sprites
+namespace Monogame00.Sprites
 {
     public class Sprite
     {

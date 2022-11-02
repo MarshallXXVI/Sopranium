@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Monogame_00.Models;
+using Monogame00.Models;
+using Monogame00.Models;
 using Vector2 = System.Numerics.Vector2;
 
-namespace Monogame_00
+namespace Monogame00
 {
     public class Grid
     {

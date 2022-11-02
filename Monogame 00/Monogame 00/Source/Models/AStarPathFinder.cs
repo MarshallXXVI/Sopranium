@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monogame_00.Models
+namespace Monogame00.Models
 {
     public class AStarPathFinder
     {

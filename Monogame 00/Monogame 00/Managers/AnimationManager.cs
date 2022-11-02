@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Monogame_00.Source.Engine;
+using Monogame00.Source.Engine;
+using Monogame00.Source.Engine;
 
-namespace Monogame_00.Managers
+namespace Monogame00.Managers
 {
     public class AnimationManager
     {

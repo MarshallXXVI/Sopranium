@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Monogame_00.Models;
+using Monogame00.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +7,14 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Monogame_00.Sprites;
+using Monogame00.Sprites;
 using Microsoft.Xna.Framework.Input;
-using Monogame_00.Source.Engine;
+using Monogame00.Source.Engine;
 using Microsoft.Xna.Framework.Content;
+using Monogame00;
+using Monogame00.Sprites;
 
-namespace Monogame_00
+namespace Monogame00
 {
     public class World
     {

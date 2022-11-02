@@ -12,11 +12,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Monogame_00;
+using Monogame00;
 #endregion
 
 
-namespace Monogame_00
+namespace Monogame00
 {
     public class Basic2d
     {
