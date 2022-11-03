@@ -102,25 +102,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/paramiewillmann/.nuget/packages/": {}
+    "C:\\Users\\soont\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/Monogame00.csproj",
+      "projectUniqueName": "C:\\Users\\soont\\source\\repos\\Sopranium\\Monogame 00\\Monogame 00\\Monogame00.csproj",
       "projectName": "Monogame 00",
-      "projectPath": "/Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/Monogame00.csproj",
-      "packagesPath": "/Users/paramiewillmann/.nuget/packages/",
-      "outputPath": "/Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/obj/",
+      "projectPath": "C:\\Users\\soont\\source\\repos\\Sopranium\\Monogame 00\\Monogame 00\\Monogame00.csproj",
+      "packagesPath": "C:\\Users\\soont\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\soont\\source\\repos\\Sopranium\\Monogame 00\\Monogame 00\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/paramiewillmann/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\soont\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -164,7 +170,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

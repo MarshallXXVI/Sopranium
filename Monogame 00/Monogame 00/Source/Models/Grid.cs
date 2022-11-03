@@ -8,13 +8,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Monogame00.Models;
-using Monogame00.Models;
-using Vector2 = System.Numerics.Vector2;
 
 namespace Monogame00
 {
     public class Grid
     {
+        protected List<Vector2> mPath;
+
         public bool mShowGrid;
 
         public Vector2 mSpotDims, mGridDims, mPhysicalStartPos, mTotalPhysicalDims, mCurrentHoverSlot;
@@ -23,6 +23,7 @@ namespace Monogame00
 
         public List<List<Spots>> mGrid = new List<List<Spots>>();
 
+        public AStarPathFinder mPathFinder;
         public Grid(Vector2 spotdims, Vector2 startpos, Vector2 totaldims)
         {
             mShowGrid = true;
@@ -81,6 +82,14 @@ namespace Monogame00
                     mGrid[i].Add(new Spots(i, j));
                 }
             }
+        }
+
+        public List<Microsoft.Xna.Framework.Vector2> GetPathFromGrid(Vector2 start, Vector2 target, bool ifDiagonal)
+        {
+            mPathFinder = new AStarPathFinder(this, start, target, ifDiagonal);
+            mPath = mPathFinder.GetPath();
+            System.Diagnostics.Debug.WriteLine("StarPathFinderCreate:" + mPath.Count);
+            return mPath;
         }
 
         public virtual void DrawGrid(Vector2 offset)

@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "w0HTQei5G2LSUGaxkE5KwNo+Wc7wlsECs9hDvGmzcEWVUCQUmPrhLhkQbfRrahUcr4zJjfNFsFJpzwOvlcMRVQ==",
+  "dgSpecHash": "b95g4oVU+tUHib8CNg9WVSv2LjkIvVEIykKkpU7wpR2rz6nQMAvp4Ydp0cOQfM4kvAJpxFXkVihuy4eLUbQpIQ==",
   "success": true,
-  "projectFilePath": "/Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/Monogame00.csproj",
+  "projectFilePath": "C:\\Users\\soont\\source\\repos\\Sopranium\\Monogame 00\\Monogame 00\\Monogame00.csproj",
   "expectedPackageFiles": [
-    "/Users/paramiewillmann/.nuget/packages/monogame.content.builder.task/3.8.1.303/monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "/Users/paramiewillmann/.nuget/packages/monogame.framework.desktopgl/3.8.1.303/monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "C:\\Users\\soont\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\soont\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
   ],
   "logs": []
 }
