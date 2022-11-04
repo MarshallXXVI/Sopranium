@@ -12,7 +12,7 @@ namespace Monogame00.Managers
 {
     public class AnimationManager
     {
-        private Animation mAnimation;
+        public Animation mAnimation;
 
         private float mTimer;
 
@@ -26,7 +26,7 @@ namespace Monogame00.Managers
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(mAnimation.Texture,
-                Position,
+                Position - new Vector2(20, 35),
                 new Rectangle(mAnimation.CurrentFrame * mAnimation.FrameWidth,
                     0,
                     mAnimation.FrameWidth,

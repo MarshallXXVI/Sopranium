@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace Monogame00.Models
@@ -65,7 +57,7 @@ namespace Monogame00.Models
 
         public List<Vector2> GetPath()
         {
-            System.Diagnostics.Debug.WriteLine(mMasterGrid.Count * mMasterGrid[0].Count);
+            //System.Diagnostics.Debug.WriteLine(mMasterGrid.Count * mMasterGrid[0].Count);
             mViewable.Add(mMasterGrid[(int)mStart.X][(int)mStart.Y]);
 
             while (mViewable.Count > 0 && !(mViewable[0].mPositionOfThisSpot.X == mTarget.X && mViewable[0].mPositionOfThisSpot.Y == mTarget.Y))
@@ -76,7 +68,7 @@ namespace Monogame00.Models
             
 
             List<Vector2> path = new List<Vector2>();
-            System.Diagnostics.Debug.WriteLine("mViewable: " + mViewable.Count);
+            //System.Diagnostics.Debug.WriteLine("mViewable: " + mViewable.Count);
 
             if (mViewable.Count > 0)
             {
@@ -125,7 +117,7 @@ namespace Monogame00.Models
 
                 path.Reverse();
             }
-            System.Diagnostics.Debug.WriteLine("FinalPathCount: " + path.Count);
+            //System.Diagnostics.Debug.WriteLine("FinalPathCount: " + path.Count);
             return path;
         }
 

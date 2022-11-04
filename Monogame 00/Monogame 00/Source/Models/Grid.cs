@@ -26,15 +26,15 @@ namespace Monogame00
         public AStarPathFinder mPathFinder;
         public Grid(Vector2 spotdims, Vector2 startpos, Vector2 totaldims)
         {
-            mShowGrid = true;
+            mShowGrid = false;
             mSpotDims = spotdims;
             mPhysicalStartPos = new Vector2((int)startpos.X, (int)startpos.Y);
             mTotalPhysicalDims = new Vector2((int)totaldims.X, (int)totaldims.Y);
-            mCurrentHoverSlot = new Vector2(-1, -1);
+            mCurrentHoverSlot = new Vector2(0, 0);
 
             mGridImage = new Basic2d("2D/shade",
                 mSpotDims / 2,
-                new Microsoft.Xna.Framework.Vector2(mSpotDims.X - 2, mSpotDims.Y - 2));
+                new Vector2(mSpotDims.X - 2, mSpotDims.Y - 2));
             SetGrid();
         }
 
@@ -84,11 +84,11 @@ namespace Monogame00
             }
         }
 
-        public List<Microsoft.Xna.Framework.Vector2> GetPathFromGrid(Vector2 start, Vector2 target, bool ifDiagonal)
+        public List<Vector2> GetPathFromGrid(Vector2 start, Vector2 target, bool ifDiagonal)
         {
             mPathFinder = new AStarPathFinder(this, start, target, ifDiagonal);
             mPath = mPathFinder.GetPath();
-            System.Diagnostics.Debug.WriteLine("StarPathFinderCreate:" + mPath.Count);
+            //System.Diagnostics.Debug.WriteLine("StarPathFinderCreate:" + mPath.Count);
             return mPath;
         }
 
@@ -100,8 +100,8 @@ namespace Monogame00
                 Vector2 botRight =
                     GetSpotsFromPixel(new Vector2(Globals.mScreenWidth, Globals.mScreenHeight), Vector2.Zero);
 
-                Globals.mEffect.Parameters["filterColor"].SetValue(Color.White.ToVector4());
-                Globals.mEffect.CurrentTechnique.Passes[0].Apply();
+                //Globals.mEffect.Parameters["filterColor"].SetValue(Color.White.ToVector4());
+                //Globals.mEffect.CurrentTechnique.Passes[0].Apply();
 
                 for (int j = (int)topLeft.X; j < botRight.X && j <= mGrid.Count; j++)
                 {
@@ -110,8 +110,9 @@ namespace Monogame00
                         if (mCurrentHoverSlot.X == j && mCurrentHoverSlot.Y == k)
                         {
                             //mGridImage.Draw(offset + mPhysicalStartPos + new Vector2(j * mSpotDims.X, k * mSpotDims.Y));
-                            Globals.mEffect.Parameters["filterColor"].SetValue(Color.Red.ToVector4());
-                            Globals.mEffect.CurrentTechnique.Passes[0].Apply();
+                            //Globals.mEffect.Parameters["filterColor"].SetValue(Color.Red.ToVector4());
+                            //Globals.mEffect.CurrentTechnique.Passes[0].Apply();
+                            continue;
                         }
                         else
                         {

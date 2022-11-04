@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Monogame00.Models;
 using Monogame00.Source.Engine;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualBasic;
 
 namespace Monogame00.Source
@@ -29,6 +30,7 @@ namespace Monogame00.Source
         public Player(Grid grid)
         {
             mPlayerGrid = grid;
+
             var animations = new Dictionary<string, Animation>()
             {
                 { "up", new Animation(Globals.mContent.Load<Texture2D>("player/up"), 3) },
@@ -36,9 +38,10 @@ namespace Monogame00.Source
                 { "left", new Animation(Globals.mContent.Load<Texture2D>("player/left"), 3) },
                 { "right", new Animation(Globals.mContent.Load<Texture2D>("player/right"), 3) }
             };
+
             mPlayer = new Sprite(animations)
             {
-                Position = new Vector2(100, 100),
+                Position = new Vector2(400, 400),
                 mInput = new Input()
                 {
                     LeftKeys = Keys.A,
@@ -52,33 +55,44 @@ namespace Monogame00.Source
 
         public void Update(GameTime gameTime)
         {
+            CheckIfClickToMove();
+            mPlayer.Update(gameTime);
+        }
+
+        public void CheckIfClickToMove()
+        {
+            bool checkScroll = false;
+
             if (Globals.mMouse.RightClick())
             {
                 mMoveTo = new Vector2(Globals.mMouse.mNewMousePos.X, Globals.mMouse.mNewMousePos.Y);
+
                 mIndex = 1;
-                System.Diagnostics.Debug.WriteLine(mPlayerGrid.GetSpotsFromPixel(mMoveTo, Vector2.Zero));
+
                 mPathSpots = FindPath(mPlayerGrid, mPlayerGrid.GetSpotsFromPixel(mMoveTo, Vector2.Zero));
-                System.Diagnostics.Debug.WriteLine(mPathSpots.Count);
+
             }
 
             if (mPathSpots == null)
             {
                 System.Diagnostics.Debug.WriteLine("noPathIsCreate");
             }
-            
-            if (mPathSpots != null && mIndex < mPathSpots.Count)
+
+            if (mPathSpots != null && mIndex < mPathSpots.Count - 1)
             {
+                checkScroll = true;
+
                 Vector2 tempVelocity = mPlayerGrid.GetSpotsFromPixel(mPathSpots[mIndex], Vector2.Zero) -
-                                    mPlayerGrid.GetSpotsFromPixel(mPlayer.Position, Vector2.Zero);
+                                       mPlayerGrid.GetSpotsFromPixel(mPlayer.Position, Vector2.Zero);
 
                 if (tempVelocity == Vector2.Zero && mIndex < mPathSpots.Count - 1)
                 {
-                    mPlayer.mVelocity = mPlayerGrid.GetSpotsFromPixel(mPathSpots[mIndex + 1], Vector2.Zero) -
+                    mPlayer.mVelocity = 1 * mPlayerGrid.GetSpotsFromPixel(mPathSpots[mIndex + 1], Vector2.Zero) -
                                         mPlayerGrid.GetSpotsFromPixel(mPlayer.Position, Vector2.Zero);
                 }
                 else
                 {
-                    mPlayer.mVelocity = tempVelocity;
+                    mPlayer.mVelocity = 1 * tempVelocity;
                 }
 
                 System.Diagnostics.Debug.WriteLine("Player Position: " + mPlayer.Position);
@@ -91,8 +105,12 @@ namespace Monogame00.Source
                 {
                     mIndex++;
                 }
+
             }
-            mPlayer.Update(gameTime);
+            if (checkScroll)
+            {
+                GameGlobals.mCheckScroll(mPlayer.Position);
+            }
         }
 
         public virtual List<Vector2> FindPath(Grid grid, Vector2 target)

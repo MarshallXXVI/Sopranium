@@ -26,6 +26,13 @@ namespace Monogame00.Sprites
 
         protected MouseState mMouseState;
 
+        public Rectangle Rectangle
+        {
+            get {return new Rectangle((int)Position.X, (int)Position.Y,
+                mAnimationManager.mAnimation.Texture.Width,
+                mAnimationManager.mAnimation.Texture.Height); }
+        }
+
         public Vector2 Position
         {
             get { return mProtectedPosition; }
@@ -112,7 +119,8 @@ namespace Monogame00.Sprites
             if (mTexture != null)
             {
                 spriteBatch.Draw(mTexture, Position, Color.White);
-            } else if (mAnimationManager != null)
+            }
+            else if (mAnimationManager != null)
             {
                 mAnimationManager.Draw(spriteBatch);
             }
@@ -126,15 +134,6 @@ namespace Monogame00.Sprites
         {
             mAnimations = animations;
             mAnimationManager = new AnimationManager(mAnimations.First().Value);
-        }
-
-        protected virtual void ShortestPath()
-        {
-            mMouseState = Mouse.GetState();
-            mProtectedTarget = mMouseState.Position.ToVector2();
-            
-            float mouseToSpritesDis = Vector2.Distance(mProtectedPosition, mProtectedTarget);
-
         }
     }
 }

@@ -31,7 +31,6 @@
 /Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/obj/Debug/net6.0/Monogame00.csproj.CopyComplete
 /Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/obj/Debug/net6.0/Monogame00.genruntimeconfig.cache
 /Users/paramiewillmann/Desktop/Sopranium/Monogame 00/Monogame 00/obj/Debug/net6.0/ref/Monogame 00.dll
-C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\bin\Debug\net6.0\Content\bin\DesktopGL\Effects\NormalCopy.xnb
 C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\bin\Debug\net6.0\Content\Effects\NormalCopy.xnb
 C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\bin\Debug\net6.0\Content\YE.xnb
 C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\bin\Debug\net6.0\Content\240px-Unilogo.xnb
@@ -64,3 +63,4 @@ C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\obj\Debug\net6.0\r
 C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\obj\Debug\net6.0\Monogame 00.pdb
 C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\obj\Debug\net6.0\Monogame00.genruntimeconfig.cache
 C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\obj\Debug\net6.0\ref\Monogame 00.dll
+C:\Users\soont\source\repos\Sopranium\Monogame 00\Monogame 00\bin\Debug\net6.0\Content\Units\unit.xnb

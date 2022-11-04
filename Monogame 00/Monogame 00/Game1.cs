@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Monogame00.Source.Engine;
 using Monogame00.Sprites;
 
 namespace Monogame00
@@ -15,6 +16,7 @@ namespace Monogame00
         private World mWorld;
         private int mColums;
         private int mRows;
+        private Camera mCamera;
 
         public Game1()
         {
@@ -23,13 +25,18 @@ namespace Monogame00
             IsMouseVisible = true;
         }
 
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            mGraphics.PreferredBackBufferHeight = 600;
+            mGraphics.PreferredBackBufferWidth = 900;
+            mGraphics.ApplyChanges();
             mColums = mGraphics.PreferredBackBufferWidth;
             mRows = mGraphics.PreferredBackBufferHeight;
             base.Initialize();
         }
+
 
         protected override void LoadContent()
         {
@@ -37,23 +44,19 @@ namespace Monogame00
             Globals.mScreenHeight = mRows;
             Globals.mContent = this.Content;
             Globals.mSpriteBatch = new SpriteBatch(GraphicsDevice);
-            Globals.mEffect = Globals.mContent.Load<Effect>("Effects/NormalCopy");
             Globals.mMouse = new McMouseControl();
             mWorld = new World();
         }
-        // TODO: use this.Content to load your game content here
 
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {    Exit();}
+            Globals.mMouse.Update();
 
             mWorld.Update(gameTime);
-            Globals.mMouse.Update();
-            // TODO: Add your update logic here
-
-
+            Globals.mMouse.UpdateOld();
             base.Update(gameTime);
         }
 
@@ -61,8 +64,6 @@ namespace Monogame00
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
             Globals.mSpriteBatch.Begin();
             mWorld.Draw(Globals.mSpriteBatch);
             Globals.mSpriteBatch.End();
