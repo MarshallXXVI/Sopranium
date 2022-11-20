@@ -3,56 +3,55 @@ using KnightsOfLaCampus.Source;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace KnightsOfLaCampus.Screens
+namespace KnightsOfLaCampus.Screens;
+
+internal sealed class InventoryScreen : IScreen
 {
-    internal sealed class InventoryScreen : IScreen
+    public bool DrawLower { get; set; }
+    public bool UpdateLower { get; set; }
+
+    private Texture2D mInventoryBackground;
+    private ButtonClick mCloseButton;
+
+    public InventoryScreen()
     {
-        public bool DrawLower { get; set; }
-        public bool UpdateLower { get; set; }
+        DrawLower = true;
+        UpdateLower = false;
+    }
+    public void LoadContent()
+    {
+        mInventoryBackground = Source.Globals.Content.Load<Texture2D>("Inventar");
+        mCloseButton = new ButtonClick( new Vector2(15, 15), "CloseButton", Color.OrangeRed, Color.White);
+        mCloseButton.LoadContent();
+    }
 
-        private Texture2D mInventoryBackground;
-        private ButtonClick mCloseButton;
+    public void Update(GameTime gameTime)
+    {
 
-        public InventoryScreen()
+    }
+
+    public IScreen NextScreen()
+    {
+        return null;
+    }
+
+    public IScreen PrevScreen()
+    {
+        if (mCloseButton.IsPressed())
         {
-            DrawLower = true;
-            UpdateLower = false;
+            return this;
         }
-        public void LoadContent()
-        {
-            mInventoryBackground = Source.Globals.Content.Load<Texture2D>("Inventar");
-            mCloseButton = new ButtonClick( new Vector2(15, 15), "CloseButton", Color.OrangeRed, Color.White);
-            mCloseButton.LoadContent();
-        }
+        return null;
+    }
 
-        public void Update(GameTime gameTime)
-        {
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        Globals.SpriteBatch.Draw(
+            mInventoryBackground,
+            new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight * 1/4),
+            Color.LightGray
+        );
 
-        }
-
-        public IScreen NextScreen()
-        {
-            return null;
-        }
-
-        public IScreen PrevScreen()
-        {
-            if (mCloseButton.IsPressed())
-            {
-                return this;
-            }
-            return null;
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            Globals.SpriteBatch.Draw(
-                mInventoryBackground,
-                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight * 1/4),
-                Color.LightGray
-            );
-
-            mCloseButton.Draw(spriteBatch);
-        }
+        mCloseButton.Draw(spriteBatch);
     }
 }

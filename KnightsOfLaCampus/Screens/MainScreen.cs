@@ -4,81 +4,80 @@ using KnightsOfLaCampus.Source;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace KnightsOfLaCampus.Screens
+namespace KnightsOfLaCampus.Screens;
+
+internal sealed class MainScreen : IScreen
 {
-    internal sealed class MainScreen : IScreen
+    public bool DrawLower { get; set; }
+    public bool UpdateLower { get; set; }
+
+    private Texture2D mBackground;
+
+    private Button mNewGameButton;
+    private Button mLoadGameButton;
+
+    public MainScreen()
     {
-        public bool DrawLower { get; set; }
-        public bool UpdateLower { get; set; }
+        DrawLower = false;
+        UpdateLower = false;
+    }
+    public void LoadContent()
+    {
+        // Loads the background
+        mBackground = Globals.Content.Load<Texture2D>("Hauptmenü");
 
-        private Texture2D mBackground;
+        // Loads the Neues Spiel button
+        mNewGameButton = new ButtonClick(new Vector2(100, 100),
+            "NeuesSpielButton",
+            Color.Green, 
+            Color.White);
 
-        private Button mNewGameButton;
-        private Button mLoadGameButton;
+        // Loads the Spiel laden button
+        mLoadGameButton = new ButtonClick(new Vector2(100, 300),
+            "SpielLadenButton",
+            Color.Green,
+            Color.White);
 
-        public MainScreen()
+        // Loads the button contents
+        mNewGameButton.LoadContent();
+        mLoadGameButton.LoadContent();
+    }
+
+    public void Update(GameTime gameTime)
+    {
+
+    }
+
+    public IScreen NextScreen()
+    {
+        if (mNewGameButton.IsPressed())
         {
-            DrawLower = false;
-            UpdateLower = false;
-        }
-        public void LoadContent()
-        {
-            // Loads the background
-            mBackground = Globals.Content.Load<Texture2D>("Hauptmenü");
-
-            // Loads the Neues Spiel button
-            mNewGameButton = new ButtonClick(new Vector2(100, 100),
-                "NeuesSpielButton",
-                Color.Green, 
-                Color.White);
-
-            // Loads the Spiel laden button
-            mLoadGameButton = new ButtonClick(new Vector2(100, 300),
-                "SpielLadenButton",
-                Color.Green,
-                Color.White);
-
-            // Loads the button contents
-            mNewGameButton.LoadContent();
-            mLoadGameButton.LoadContent();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-
+            return new GameScreen();
         }
 
-        public IScreen NextScreen()
+        if (mLoadGameButton.IsPressed())
         {
-            if (mNewGameButton.IsPressed())
-            {
-                return new GameScreen();
-            }
-
-            if (mLoadGameButton.IsPressed())
-            {
-                SavedVariables.LoadSavedVariables = true;
-                return new GameScreen();
-            }
-
-            return null;
+            SavedVariables.LoadSavedVariables = true;
+            return new GameScreen();
         }
 
-        public IScreen PrevScreen()
-        {
-            return null;
-        }
+        return null;
+    }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            // Draws the background
-            Globals.SpriteBatch.Draw(mBackground, 
-                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), 
-                Color.White);
+    public IScreen PrevScreen()
+    {
+        return null;
+    }
 
-            // Draws the buttons
-            mNewGameButton.Draw(spriteBatch);
-            mLoadGameButton.Draw(spriteBatch);
-        }
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        // Draws the background
+        Globals.SpriteBatch.Draw(mBackground, 
+            new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), 
+            Color.White);
+
+        // Draws the buttons
+        mNewGameButton.Draw(spriteBatch);
+        mLoadGameButton.Draw(spriteBatch);
     }
 }

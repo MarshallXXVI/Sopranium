@@ -1,70 +1,74 @@
-﻿using KnightsOfLaCampus.Managers;
+﻿using System.Collections.Generic;
+using KnightsOfLaCampus.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KnightsOfLaCampus.Source.Astar;
-using KnightsOfLaCampus.Source.GridNew;
 using Microsoft.Xna.Framework.Audio;
 using TiledSharp;
 
-namespace KnightsOfLaCampus.Source
+namespace KnightsOfLaCampus.Source;
+
+internal sealed class World
 {
-    internal sealed class World
+    private readonly Vector2 mOffSet;
+    private readonly SoMuchOfSpots mPlayerField;
+    private readonly Player mPlayer;
+    private readonly Enemy mEnemy, mEnemy1, mEnemy2, mEnemy3, mEnemy4, mEnemy5;
+    private readonly List<Enemy> mMobs;
+    private readonly TileMapManager mMapManager;
+
+
+    internal World()
     {
-        private readonly Vector2 mOffSet;
-        private readonly Grid mGrid;
-        private readonly Player mPlayer;
-        private readonly TileMapManager mMapManager;
+        var soundManager = new SoundManager();
+        mOffSet = new Vector2(0, 0);
+        mPlayerField = new SoMuchOfSpots(new Vector2(32, 32),
+            new Vector2(0, 0),
+            new Vector2(Globals.ScreenWidth, Globals.ScreenHeight));
 
+        // Import Map
+        var mapLevel1 = new TmxMap("Content\\Maps\\Level1.tmx");
+        mMapManager = new TileMapManager(mapLevel1);
 
-        internal World()
+        // Import Player call Player.cs
+        mPlayer = new Player(mPlayerField);
+
+        // Test set MusicBackground
+        soundManager.ChangeMusic(0);
+        mMobs = new List<Enemy>();
+        mEnemy = new Enemy(mPlayer, mPlayerField){Position = new Vector2(16,16)};
+        mEnemy1 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(16, 600) };
+        mEnemy2 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(98, 600) };
+        mEnemy3 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(128, 100) };
+        mEnemy4 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(400, 100) };
+        mEnemy5 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(1000, 706) };
+        mMobs.Add(mEnemy);
+        mMobs.Add(mEnemy1);
+        mMobs.Add(mEnemy2);
+        mMobs.Add(mEnemy3);
+        mMobs.Add(mEnemy4);
+        mMobs.Add(mEnemy5);
+    }
+    internal void Update(GameTime gameTime)
+    {
+        mPlayer.Update(gameTime);
+        foreach (var enemy in mMobs)
         {
-            var soundManager = new SoundManager();
-            mOffSet = new Vector2(0, 0);
-            // Grid is created can be bigger than Screen.
-            // spotDims is how width and height of a spot.
-            // startPos is top left of grid it can be -100, -100 if we want to generate bigger map.
-            // totalDims is bottom right of grid it can be bigger than Globals.ScreenWidth and Globals.ScreenHeight.
-            // call Source/Astar/Grid.cs
-
-            // Demonstration how to Manipulate a grid which is already construct.
-            // here a invisible wall was create in the middle of the screen.
-            //for (var i = 0; i <= mGrid.GridDims.Y; i++)
-            //{
-            //    mGrid.mGrid[(int)((Globals.ScreenWidth / 2) / 40)][i].mIfFilled = true;
-            //}
-            // if LeftMouseClickAndDrag you can draw a maze.
-
-            // Import Map
-            var mapLevel1 = new TmxMap("Content\\Maps\\Level1.tmx");
-            var tileSet = Globals.Content.Load<Texture2D>(mapLevel1.Tilesets[0].Name.ToString());
-            
-            mMapManager = new TileMapManager(mapLevel1);
-
-            // Initislaizes the Grid with the TileMap.png
-            mGrid = new Grid(mMapManager.GetTextureArray());
-
-            // Import Player call Player.cs
-            mPlayer = new Player(mGrid);
-
-            // Test set MusicBackground
-            soundManager.ChangeMusic(0);
-
-
+            enemy.Update(gameTime);
         }
-        internal void Update(GameTime gameTime)
+        mPlayerField.Update(mOffSet);
+    }
+
+    internal void Draw(SpriteBatch spriteBatch)
+    {
+        mMapManager.Draw();
+        mPlayerField.Draw(Vector2.Zero);
+
+        foreach (var enemy in mMobs)
         {
-
-            mPlayer.Update(gameTime);
-            mGrid.Update(mOffSet);
-
+            enemy.Draw(spriteBatch);
         }
 
-        internal void Draw(SpriteBatch spriteBatch)
-        {
-            //enable this to draw map.
-            //mMapManager.Draw();
-            mGrid.Draw();
-            mPlayer.Draw(spriteBatch);
-        }
+        mPlayer.Draw(spriteBatch);
     }
 }

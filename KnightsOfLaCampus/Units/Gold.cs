@@ -1,7 +1,6 @@
-﻿namespace KnightsOfLaCampus.Units
+﻿namespace KnightsOfLaCampus.Units;
+
+internal sealed class Gold
 {
-    internal sealed class Gold
-    {
-        // #TODO insert members
-    }
+    // #TODO insert members
 }
