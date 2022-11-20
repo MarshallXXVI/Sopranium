@@ -94,9 +94,9 @@ internal class King : IFriendlyUnit
         mIfSelected = mouseKingDist switch
         {
             // we set our flag to true if unit was never been selected.
-            < 15 when !mIfSelected => true,
+            < 17 when !mIfSelected => true,
             // else mouse has been click but not on Unit we set our flag false.
-            > 15 => false,
+            > 17 => false,
             _ => mIfSelected
         };
 

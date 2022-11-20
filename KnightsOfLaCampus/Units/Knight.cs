@@ -32,10 +32,10 @@ internal sealed class Knight : IFriendlyUnit
     {
         var animations = new Dictionary<string, Animation>()
         {
-            { "up", new Animation(Globals.Content.Load<Texture2D>("UNIT1/up"), 3) },
-            { "down", new Animation(Globals.Content.Load<Texture2D>("UNIT1/down"), 3) },
-            { "left", new Animation(Globals.Content.Load<Texture2D>("UNIT1/left"), 3) },
-            { "right", new Animation(Globals.Content.Load<Texture2D>("UNIT1/right"), 3) }
+            { "up", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkTop"), 4) },
+            { "down", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkDown"), 4) },
+            { "left", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkLeft"), 8) },
+            { "right", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkRight"), 8) }
         };
         mAnimations = animations;
         mAnimationManager = new AnimationManager(animations.First().Value);
@@ -80,7 +80,7 @@ internal sealed class Knight : IFriendlyUnit
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        mAnimationManager?.Draw(spriteBatch, new Vector2(9, 24));
+        mAnimationManager?.Draw(spriteBatch, new Vector2(16, 50));
     }
 
 
