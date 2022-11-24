@@ -1,74 +1,76 @@
-﻿using System.Collections.Generic;
-using KnightsOfLaCampus.Managers;
+﻿using KnightsOfLaCampus.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using KnightsOfLaCampus.Source.Astar;
-using Microsoft.Xna.Framework.Audio;
+using KnightsOfLaCampus.Source.GridNew;
+using KnightsOfLaCampus.Units;
 using TiledSharp;
+using System.Collections.Generic;
+using KnightsOfLaCampus.Managers.MovementManagement;
 
-namespace KnightsOfLaCampus.Source;
-
-internal sealed class World
+namespace KnightsOfLaCampus.Source
 {
-    private readonly Vector2 mOffSet;
-    private readonly SoMuchOfSpots mPlayerField;
-    private readonly Player mPlayer;
-    private readonly Enemy mEnemy, mEnemy1, mEnemy2, mEnemy3, mEnemy4, mEnemy5;
-    private readonly List<Enemy> mMobs;
-    private readonly TileMapManager mMapManager;
-
-
-    internal World()
+    internal sealed class World
     {
-        var soundManager = new SoundManager();
-        mOffSet = new Vector2(0, 0);
-        mPlayerField = new SoMuchOfSpots(new Vector2(32, 32),
-            new Vector2(0, 0),
-            new Vector2(Globals.ScreenWidth, Globals.ScreenHeight));
+        private readonly Vector2 mOffSet;
+        private readonly Grid mGrid;
+        private readonly TileMapManager mMapManager;
+        private readonly MovementManager mMovementManager;
+        private readonly GoldManager mGoldManager;
 
-        // Import Map
-        var mapLevel1 = new TmxMap("Content\\Maps\\Level1.tmx");
-        mMapManager = new TileMapManager(mapLevel1);
+        // Positions of the Gold Spawns on the map via Grid Positions
+        List<Vector2> mGoldSpawns = new List<Vector2>();
 
-        // Import Player call Player.cs
-        mPlayer = new Player(mPlayerField);
+        // List of Units in the world
+        private List<Unit> mAllyUnits;
+        private List<Unit> mEnemyUnits;
 
-        // Test set MusicBackground
-        soundManager.ChangeMusic(0);
-        mMobs = new List<Enemy>();
-        mEnemy = new Enemy(mPlayer, mPlayerField){Position = new Vector2(16,16)};
-        mEnemy1 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(16, 600) };
-        mEnemy2 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(98, 600) };
-        mEnemy3 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(128, 100) };
-        mEnemy4 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(400, 100) };
-        mEnemy5 = new Enemy(mPlayer, mPlayerField) { Position = new Vector2(1000, 706) };
-        mMobs.Add(mEnemy);
-        mMobs.Add(mEnemy1);
-        mMobs.Add(mEnemy2);
-        mMobs.Add(mEnemy3);
-        mMobs.Add(mEnemy4);
-        mMobs.Add(mEnemy5);
-    }
-    internal void Update(GameTime gameTime)
-    {
-        mPlayer.Update(gameTime);
-        foreach (var enemy in mMobs)
+        // Units on this world
+        private King mKing;
+        private Unit mSwordsman;
+
+        internal World()
         {
-            enemy.Update(gameTime);
+            mOffSet = new Vector2(0, 0);
+
+            // Import Map
+            var mapLevel1 = new TmxMap("Content\\Level1.tmx");
+            mMapManager = new TileMapManager(mapLevel1);
+
+            // Initialize the Grid with the TileMap.png
+            mGrid = new Grid(mMapManager.GetTextureArray());
+            mGrid.SetTileMap(mapLevel1);
+
+            // Initialize the Units
+            mKing = new King();
+            mSwordsman = new Swordsman();
+
+            // Inits the lists of Units
+            mAllyUnits = new List<Unit>() {mKing, mSwordsman};
+            mEnemyUnits = new List<Unit>();
+
+
+            // Initialize the AnimationManager and
+            mMovementManager = new MovementManager(mGrid, mAllyUnits, mEnemyUnits);
+
+            // Initialize the spawned Gold
+            mGoldSpawns.Add(new Vector2(10, 10));
+            mGoldSpawns.Add(new Vector2(20, 20));
+            mGoldManager = new GoldManager(mKing, mGoldSpawns);
+
+
         }
-        mPlayerField.Update(mOffSet);
-    }
-
-    internal void Draw(SpriteBatch spriteBatch)
-    {
-        mMapManager.Draw();
-        mPlayerField.Draw(Vector2.Zero);
-
-        foreach (var enemy in mMobs)
+        internal void Update(GameTime gameTime)
         {
-            enemy.Draw(spriteBatch);
+            mMovementManager.Update(gameTime);
+            mGoldManager.Update();
         }
 
-        mPlayer.Draw(spriteBatch);
+        internal void Draw(SpriteBatch spriteBatch)
+        {
+            mGrid.Draw();
+            mMovementManager.Draw();
+            mGoldManager.Draw(spriteBatch);
+        }
+            
     }
 }

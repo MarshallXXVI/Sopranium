@@ -2,33 +2,33 @@
 using Microsoft.Xna.Framework.Audio;
 using System;
 
-namespace KnightsOfLaCampus.Managers;
-
-/// <summary>
-/// The class creates a sound effect and the corresponding instance. It is used for management purposes in the sound manager and in the entity classes.
-/// </summary>
-internal sealed class SoundItem
+namespace KnightsOfLaCampus.Managers
 {
-    // Wird später noch benutzt, also sei still Jenkins: "private readonly SoundEffect mSoundEffect;"
-    public string NameOfSoundEffect { get; }
-    public SoundEffectInstance SoundEffectInstance { get; }
-
     /// <summary>
-    /// Constructor of the class SoundItem
+    /// The class creates a sound effect and the corresponding instance. It is used for management purposes in the sound manager and in the entity classes.
     /// </summary>
-    /// <param name="nameOfSoundEffect">The name of the sound effect to find it in the list</param>
-    /// <param name="soundPath">The path in which the audio file is located</param>
-    public SoundItem(string nameOfSoundEffect, string soundPath)
+    internal sealed class SoundItem
     {
-        NameOfSoundEffect = nameOfSoundEffect;
-        if (soundPath == null)
+        public string NameOfSoundEffect { get; }
+        public SoundEffectInstance SoundEffectInstance { get; }
+
+        /// <summary>
+        /// Constructor of the class SoundItem which creates a sound effect when there is an associated path.
+        /// </summary>
+        /// <param name="nameOfSoundEffect">The name of the sound effect to find it in the list</param>
+        /// <param name="soundPath">The path in which the audio file is located</param>
+        public SoundItem(string nameOfSoundEffect, string soundPath)
         {
-            Console.WriteLine("Error with Sound Path");
-        }
-        else
-        {
-            SoundEffect soundEffect = Globals.Content.Load<SoundEffect>(soundPath);
-            SoundEffectInstance = soundEffect.CreateInstance();
+            NameOfSoundEffect = nameOfSoundEffect;
+            if (soundPath == null)
+            {
+                Console.WriteLine("Error with Sound Path");
+            }
+            else
+            {
+                SoundEffect soundEffect = Globals.Content.Load<SoundEffect>(soundPath);
+                SoundEffectInstance = soundEffect.CreateInstance();
+            }
         }
     }
 }
