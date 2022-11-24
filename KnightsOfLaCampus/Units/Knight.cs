@@ -1,29 +1,25 @@
-﻿using System;
-using KnightsOfLaCampus.Managers;
+﻿using KnightsOfLaCampus.Managers;
+using KnightsOfLaCampus.Saves;
 using KnightsOfLaCampus.Source;
+using KnightsOfLaCampus.Source.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using KnightsOfLaCampus.Saves;
-using KnightsOfLaCampus.Source.Interfaces;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
+using System.Security.AccessControl;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace KnightsOfLaCampus.Units;
 
-internal class King : IFriendlyUnit
+internal sealed class Knight : IFriendlyUnit
 {
     private Vector2 mPosition;
     internal Vector2 mVelocity;
 
-    private const int KingXOffset = 16;
-
-    private const int KingYOffset = 50;
-
     private readonly AnimationManager mAnimationManager;
 
-    //use to test the actual position with Animation.
-    //private readonly Texture2D mTexture;
 
     private readonly SoundManager mSoundManager;
 
@@ -35,9 +31,9 @@ internal class King : IFriendlyUnit
 
     private bool mIfSelected;
 
-
-    internal King()
+    internal Knight()
     {
+        // load animation set from source folder in this case Content\\King\\...
         var animations = new Dictionary<string, Animation>()
         {
             { "up", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkTop"), 4) },
@@ -45,17 +41,50 @@ internal class King : IFriendlyUnit
             { "left", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkLeft"), 8) },
             { "right", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkRight"), 8) }
         };
+        // allocate animations in to this object.
         mAnimations = animations;
-        mAnimationManager = new AnimationManager(mAnimations.First().Value);
+        mAnimationManager = new AnimationManager(animations.First().Value);
+
+        // init by false.
         mIfSelected = false;
         mSaveManager = new SaveManager();
         mSoundManager = new SoundManager();
+        // and sound effect to this object.
         mSoundManager.AddSoundEffect("Walk", "Audio\\SoundEffects\\WalkDirt");
     }
 
-    public bool GetIfSelected()
+    public void Update(GameTime gameTime)
     {
-        return mIfSelected;
+        CheckIfSelected();
+        Move(gameTime);
+        GraphicsUpdate();
+        AudioUpdate();
+        mAnimationManager.Update(gameTime);
+        mVelocity = Vector2.Zero;
+    }
+
+
+    // this function always check if this Unit is selected or not.
+    // mIfSelected is ours flag,
+    private void CheckIfSelected()
+    {
+        // we check if Left Mouse is Clicked.
+        if (!Globals.Mouse.LeftClick())
+        {
+            return;
+        }
+
+        // mouseKingDist is distance between mouse last pick position and Unit position.
+        var mouseKingDist = Vector2.Distance(this.Position, Globals.Mouse.mNewMousePos);
+        mIfSelected = mouseKingDist switch
+        {
+            // we set our flag to true if unit was never been selected.
+            < 17 when !mIfSelected => true,
+            // else mouse has been click but not on Unit we set our flag false.
+            > 17 => false,
+            _ => mIfSelected
+        };
+
     }
 
     private void Move(GameTime gameTime)
@@ -71,56 +100,6 @@ internal class King : IFriendlyUnit
         }
     }
 
-    public void Update(GameTime gameTime)
-    {
-        CheckIfSelected();
-        Move(gameTime);
-        GraphicsUpdate();
-        AudioUpdate();
-        mAnimationManager.Update(gameTime);
-        mVelocity = Vector2.Zero;
-
-        if (SavedVariables.LoadSavedVariables)
-        {
-            mSaveManager.LoadFromXml();
-            Position = SavedVariables.KingPositon;
-            SavedVariables.LoadSavedVariables = false;
-        }
-
-        SavedVariables.KingPositon = Position;
-        mSaveManager.SaveToXml();
-    }
-
-
-    // this function always check if this Unit is selected or not.
-    // mIfSelected is ours flag,
-    private void CheckIfSelected()
-    {
-        // we check if Left Mouse is Clicked.
-        if (!Globals.Mouse.LeftClick())
-        {
-            return;
-        }
-
-        // mouseKingDist is distance between mouse last pick position and Unit position.
-        var mouseKingDist = Vector2.Distance(Position, Globals.Mouse.mNewMousePos);
-        mIfSelected = mouseKingDist switch
-        {
-            // we set our flag to true if unit was never been selected.
-            < 17 when !mIfSelected => true,
-            // else mouse has been click but not on Unit we set our flag false.
-            > 17 => false,
-            _ => mIfSelected
-        };
-
-    }
-
-    /// <summary>
-    /// we move our Sprite to next position in ours mPath which provides by Path finding.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="gameTime"></param>
-    /// <returns></returns>
     private bool MoveTowardsSpot(Vector2 target, GameTime gameTime)
     {
         // if we hit ours next destination return true;
@@ -145,19 +124,19 @@ internal class King : IFriendlyUnit
         // return true or false;
         return Position == target;
     }
-    
-    /// <summary>
-    /// this Draw what suppose to draw on the screen.
-    /// </summary>
-    /// <param name="spriteBatch"></param>
+
     public void Draw(SpriteBatch spriteBatch)
     {
-        mAnimationManager?.Draw(spriteBatch, new Vector2(KingXOffset, KingYOffset));
+        mAnimationManager?.Draw(spriteBatch, new Vector2(16, 50));
     }
 
-    /// <summary>
-    /// update Audio if moving play Walk.
-    /// </summary>
+
+    public bool GetIfSelected()
+    {
+        return mIfSelected;
+    }
+
+
     public void AudioUpdate()
     {
         if (mVelocity != Vector2.Zero)
@@ -170,9 +149,6 @@ internal class King : IFriendlyUnit
         }
     }
 
-    /// <summary>
-    /// we update what should be drawn from Animations Set.
-    /// </summary>
     public void GraphicsUpdate()
     {
         switch (mVelocity.X)
@@ -184,28 +160,24 @@ internal class King : IFriendlyUnit
                 mAnimationManager.Play(mAnimations["left"]);
                 break;
             default:
-            {
-                switch (mVelocity.Y)
                 {
-                    case > 0:
-                        mAnimationManager.Play(mAnimations["down"]);
-                        break;
-                    case < 0:
-                        mAnimationManager.Play(mAnimations["up"]);
-                        break;
-                    default:
-                        mAnimationManager.Stop();
-                        break;
+                    switch (mVelocity.Y)
+                    {
+                        case > 0:
+                            mAnimationManager.Play(mAnimations["down"]);
+                            break;
+                        case < 0:
+                            mAnimationManager.Play(mAnimations["up"]);
+                            break;
+                        default:
+                            mAnimationManager.Stop();
+                            break;
+                    }
+                    break;
                 }
-
-                break;
-            }
         }
     }
 
-    /// <summary>
-    /// return Position from this Object.
-    /// </summary>
     public Vector2 Position
     {
         get => mPosition;
@@ -219,49 +191,16 @@ internal class King : IFriendlyUnit
             }
         }
     }
-    /// <summary>
-    /// return Velocity from this Object.
-    /// </summary>
+
     public Vector2 Velocity
     {
         get => mVelocity;
         set => mVelocity = value;
     }
 
-    /// <summary>
-    /// return List of Path from this Object.
-    /// </summary>
     public List<Vector2> Path
     {
         get => mPath;
         set => mPath = value;
     }
 }
-
-// Will be implement later.
-
-//public override void SpawnPoint(Vector2 position)
-//{
-//    // Currently empty
-//}
-
-//public override void TakeDamage(int damage)
-//{
-//    mHpBar -= 1;
-//}
-
-//public static void AttackOther(Vector2 position)
-//{
-//    // Currently empty
-//}
-
-//public static void CollectGold()
-//{
-//    // Currently empty
-//}
-
-//public static void RepairWall()
-//{
-//    // can call value of Gold here directly no use of Parameter.
-//    // Currently empty
-//}
