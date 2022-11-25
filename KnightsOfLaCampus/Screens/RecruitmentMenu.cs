@@ -56,16 +56,16 @@ namespace KnightsOfLaCampus.Screens
             CloseButton.LoadContent();
 
             // Buy-Buttons of each unit
-            mButtonBuyUnitSwordsman = new ButtonClick(new Vector2(ButtonBuyUnitX3, ButtonBuyUnitY), "BuyMenuButton", Color.Red, Color.Firebrick);
+            mButtonBuyUnitSwordsman = new ButtonClick(new Vector2(ButtonBuyUnitX0, ButtonBuyUnitY), "BuyMenuButton", Color.Green, Color.Firebrick);
             mButtonBuyUnitSwordsman.LoadContent();
 
-            mButtonBuyUnitKavallerie = new ButtonClick(new Vector2(ButtonBuyUnitX2, ButtonBuyUnitY), "BuyMenuButton", Color.Firebrick, Color.Firebrick);
+            mButtonBuyUnitKavallerie = new ButtonClick(new Vector2(ButtonBuyUnitX1, ButtonBuyUnitY), "BuyMenuButton", Color.Green, Color.Firebrick);
             mButtonBuyUnitKavallerie.LoadContent();
 
-            mButtonBuyUnitHeilerin = new ButtonClick(new Vector2(ButtonBuyUnitX1, ButtonBuyUnitY), "BuyMenuButton", Color.Firebrick, Color.Firebrick);
+            mButtonBuyUnitHeilerin = new ButtonClick(new Vector2(ButtonBuyUnitX2, ButtonBuyUnitY), "BuyMenuButton", Color.Green, Color.Firebrick);
             mButtonBuyUnitHeilerin.LoadContent();
 
-            mButtonBuyUnitBogenschuetze = new ButtonClick(new Vector2(ButtonBuyUnitX0, ButtonBuyUnitY), "BuyMenuButton", Color.Firebrick, Color.Firebrick);
+            mButtonBuyUnitBogenschuetze = new ButtonClick(new Vector2(ButtonBuyUnitX3, ButtonBuyUnitY), "BuyMenuButton", Color.Green, Color.Firebrick);
             mButtonBuyUnitBogenschuetze.LoadContent();
 
             // Font-Object
@@ -76,9 +76,25 @@ namespace KnightsOfLaCampus.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (mButtonBuyUnitSwordsman.IsPressed())
+            if (mButtonBuyUnitSwordsman.IsPressed() && GameGlobals.mGold >= 10)
             {
-                GameGlobals.mPassFriends(new Knight(){Position = new Vector2(1000, 700)});
+                GameGlobals.mGold -= 10;
+                GameGlobals.mPassFriends(new Knight(){Position = new Vector2(900, 700)});
+            }
+            if (mButtonBuyUnitKavallerie.IsPressed() && GameGlobals.mGold >= 200)
+            {
+                GameGlobals.mGold -= 200;
+                GameGlobals.mPassFriends(new Knight() { Position = new Vector2(1100, 700) });
+            }
+            if (mButtonBuyUnitHeilerin.IsPressed() && GameGlobals.mGold >= 10)
+            {
+                GameGlobals.mGold -= 10;
+                GameGlobals.mPassFriends(new Knight() { Position = new Vector2(1200, 700) });
+            }
+            if (mButtonBuyUnitBogenschuetze.IsPressed() && GameGlobals.mGold >= 10)
+            {
+                GameGlobals.mGold -= 10;
+                GameGlobals.mPassFriends(new Knight() { Position = new Vector2(1000, 700) });
             }
         }
 

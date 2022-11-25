@@ -149,6 +149,7 @@ namespace KnightsOfLaCampus.Screens
             mPause.Draw(Globals.SpriteBatch);
             //Draw Timer
             mTimer.Draw();
+            Globals.SpriteBatch.DrawString(mFont, "GOLDS: " + GameGlobals.mGold.ToString(), new Vector2(32, 80), Color.Red);
         }
 
         public bool BackToMenu()
