@@ -100,8 +100,9 @@ namespace KnightsOfLaCampus.Screens
         {
             if (mQuitToDesktopButton.IsPressed())
             {
-                // might need to pass parameter Game.bool from Game1.cs to flag up and then quit from Game1.cs
+                Globals.mQuitGame = true;
             }
+
         }
 
         /// <summary>

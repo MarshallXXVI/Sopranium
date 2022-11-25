@@ -32,10 +32,12 @@ internal sealed class Player
     private readonly List<IFriendlyUnit> mNowControlUnit = new List<IFriendlyUnit>();
     private readonly SoundEffect mHitEffect;
     private readonly Basic2D mArrow;
+    private readonly List<Enemy> mMobs;
 
-    internal Player(SoMuchOfSpots grid)
+    internal Player(SoMuchOfSpots grid, List<Enemy> mobs)
     {
         mPlayerField = grid;
+        mMobs = mobs;
         mHitEffect = Globals.Content.Load<SoundEffect>("Stuffs\\Logo_hit");
         mArrow = new Basic2D("Stuffs\\goThereArrow",
             new Vector2(16, 16),
@@ -51,6 +53,13 @@ internal sealed class Player
 
     internal void Update(GameTime gameTime)
     {
+        foreach (var mob in mMobs)
+        {
+            if (Vector2.Distance(mob.Position, mKing.Position) < 15)
+            {
+                mob.mIfDead = true;
+            }
+        }
         FriendUpdate();
         mKnight.Update(gameTime);
         mKing.Update(gameTime);

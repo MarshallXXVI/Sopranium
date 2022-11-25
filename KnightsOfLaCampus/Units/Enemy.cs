@@ -13,6 +13,7 @@ namespace KnightsOfLaCampus.Source;
 
 internal class Enemy : IEnemyUnit
 {
+    public bool mIfDead;
     private Vector2 mPosition;
     internal Vector2 mVelocity;
 
@@ -33,6 +34,7 @@ internal class Enemy : IEnemyUnit
 
     internal Enemy(Player target, SoMuchOfSpots field)
     {
+        mIfDead = false;
         var animations = new Dictionary<string, Animation>()
         {
             { "up", new Animation(Globals.Content.Load<Texture2D>("UNIT1/up"), 3) },

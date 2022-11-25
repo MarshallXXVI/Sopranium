@@ -1,5 +1,6 @@
 ﻿using KnightsOfLaCampus.Buttons;
 using KnightsOfLaCampus.Source;
+using KnightsOfLaCampus.Units;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -71,6 +72,14 @@ namespace KnightsOfLaCampus.Screens
             WritingPrice = Globals.Content.Load<SpriteFont>("Font");
 
             #endregion
+        }
+
+        public  void Update()
+        {
+            if (mButtonBuyUnitSwordsman.IsPressed())
+            {
+                GameGlobals.mPassMobs(new Knight());
+            }
         }
 
         /// <summary>

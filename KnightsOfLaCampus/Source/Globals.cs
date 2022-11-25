@@ -4,13 +4,13 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 using System;
 
 namespace KnightsOfLaCampus.Source;
-
+public delegate void PassObject(object i);
 internal static class Globals
 {
-    // Some globals that we might use 
-
+    // Some globals that we might use
+    public static bool mQuitGame = false;
     public const int ScreenWidth = 1920;
-    public const int ScreenHeight = 1024;
+    public const int ScreenHeight = 1080;
 
     public static GraphicsDevice Device { get; private set; }
 
