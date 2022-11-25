@@ -46,6 +46,11 @@ namespace KnightsOfLaCampus.Screens
             #endregion
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Draws all buttons, the background and the cost of the wall
         /// </summary>

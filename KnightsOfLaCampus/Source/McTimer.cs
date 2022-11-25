@@ -10,7 +10,7 @@ using KnightsOfLaCampus.Source;
 
 namespace KnightsOfLaCampus
 {
-    public class McTimer
+    internal class McTimer
     {
         public bool mGoodToGo;
         protected int mSec;
@@ -30,14 +30,10 @@ namespace KnightsOfLaCampus
 
         public int MSec
         {
-            get { return mSec; }
-            set { mSec = value; }
+            get => mSec;
+            set => mSec = value;
         }
-        public int Timer
-        {
-            get { return (int)mTimer.TotalMilliseconds; }
-        }
-
+        public int Timer => (int)mTimer.TotalMilliseconds;
 
 
         public void UpdateTimer(GameTime gameTime)
@@ -45,15 +41,6 @@ namespace KnightsOfLaCampus
             mTimer += gameTime.ElapsedGameTime;
         }
 
-        public void UpdateTimer(float speed, GameTime gameTime)
-        {
-            mTimer += TimeSpan.FromTicks((long)(gameTime.ElapsedGameTime.Ticks * speed));
-        }
-
-        public virtual void AddToTimer(int msec)
-        {
-            mTimer += TimeSpan.FromMilliseconds((long)(msec));
-        }
 
         public bool Test()
         {
@@ -67,48 +54,10 @@ namespace KnightsOfLaCampus
             }
         }
 
-        public void Reset()
-        {
-            mTimer = mTimer.Subtract(new TimeSpan(0, 0, mSec / 60000, mSec / 1000, mSec % 1000));
-            if (mTimer.TotalMilliseconds < 0)
-            {
-                mTimer = TimeSpan.Zero;
-            }
-            mGoodToGo = false;
-        }
-
-        public void Reset(int newtimer)
-        {
-            mTimer = TimeSpan.Zero;
-            MSec = newtimer;
-            mGoodToGo = false;
-        }
-
         public void ResetToZero()
         {
             mTimer = TimeSpan.Zero;
             mGoodToGo = false;
-        }
-
-        public virtual XElement ReturnXml()
-        {
-            XElement xml = new XElement("Timer",
-                                    new XElement("mSec", mSec),
-                                    new XElement("timer", Timer));
-
-
-
-            return xml;
-        }
-
-        public void SetTimer(TimeSpan time)
-        {
-            mTimer = time;
-        }
-
-        public virtual void SetTimer(int msec)
-        {
-            mTimer = TimeSpan.FromMilliseconds((long)(msec));
         }
     }
 }

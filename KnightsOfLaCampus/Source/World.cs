@@ -3,9 +3,11 @@ using KnightsOfLaCampus.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KnightsOfLaCampus.Source.Astar;
+using KnightsOfLaCampus.Source.Interfaces;
 using KnightsOfLaCampus.Units;
 using Microsoft.Xna.Framework.Audio;
 using TiledSharp;
+using System.Net.NetworkInformation;
 
 namespace KnightsOfLaCampus.Source;
 
@@ -15,6 +17,7 @@ public class World
     private readonly SoMuchOfSpots mPlayerField;
     private readonly Player mPlayer;
     private readonly List<Enemy> mMobs = new List<Enemy>();
+    private readonly List<Gold> mGolds = new List<Gold>();
     private readonly SpawnPoint mSpawnPoint;
     private readonly TileMapManager mMapManager;
 
@@ -41,6 +44,7 @@ public class World
 
         // Test if every body can find path.
         GameGlobals.mPassMobs = AddEnemy;
+        GameGlobals.mPassGolds = AddGold;
 
         // more Enemy can be inherit from Enemy class with same method.
         // Enemy has not marked as sealed can test it with inheritance.
@@ -62,6 +66,19 @@ public class World
             i--;
         }
 
+        for (var i = 0; i < mGolds.Count; i++)
+        {
+            mGolds[i].Update();
+
+            if (!mGolds[i].mIfDead)
+            {
+                continue;
+            }
+
+            mGolds.RemoveAt(i);
+            i--;
+        }
+
         mSpawnPoint.Update(gameTime);
         mPlayerField.Update(mOffSet);
     }
@@ -72,11 +89,21 @@ public class World
         mMobs.Add((Enemy)info);
     }
 
+    private void AddGold(object info)
+    {
+        mGolds.Add((Gold)info);
+    }
+
+
     internal void Draw(SpriteBatch spriteBatch)
     {
         mMapManager.Draw();
         mPlayerField.Draw(Vector2.Zero);
 
+        foreach (var spawn in mGolds)
+        {
+            spawn.Draw(spriteBatch);
+        }
         foreach (var enemy in mMobs)
         {
             enemy.Draw(spriteBatch);

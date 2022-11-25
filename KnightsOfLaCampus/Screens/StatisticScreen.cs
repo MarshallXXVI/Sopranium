@@ -68,7 +68,7 @@ namespace KnightsOfLaCampus.Screens
             // draw all the Value here.
             // can make it more nicer by adding icon before the name. (just a suggestion)
             Globals.SpriteBatch.Draw(mBackground, new Rectangle(704, 220, mBackground.Width, mBackground.Height), Color.White);
-            Globals.SpriteBatch.DrawString(mFont, "Gold   : " + mGold, new Vector2((Globals.ScreenWidth / 2) - 75, 300), Color.Black);
+            Globals.SpriteBatch.DrawString(mFont, "Gold   : " + GameGlobals.mGold, new Vector2((Globals.ScreenWidth / 2) - 75, 300), Color.Black);
             Globals.SpriteBatch.DrawString(mFont, "Alive  : " + mAlive, new Vector2((Globals.ScreenWidth / 2) - 75, 400), Color.Black);
             Globals.SpriteBatch.DrawString(mFont, "Heart  : " + mHeart, new Vector2((Globals.ScreenWidth / 2) - 75, 500), Color.Black);
             Globals.SpriteBatch.DrawString(mFont, "Time   : " + mTime, new Vector2((Globals.ScreenWidth / 2) - 75, 600), Color.Black);

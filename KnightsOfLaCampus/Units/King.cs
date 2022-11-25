@@ -13,8 +13,9 @@ namespace KnightsOfLaCampus.Units;
 
 internal class King : IFriendlyUnit
 {
+    public int mGold;
     private Vector2 mPosition;
-    internal Vector2 mVelocity;
+    private Vector2 mVelocity;
 
     private const int KingXOffset = 16;
 
@@ -31,13 +32,10 @@ internal class King : IFriendlyUnit
 
     private readonly Dictionary<string, Animation> mAnimations;
 
-    private List<Vector2> mPath = new List<Vector2>();
-
-    private bool mIfSelected;
-
 
     internal King()
     {
+        IsDead = false;
         var animations = new Dictionary<string, Animation>()
         {
             { "up", new Animation(Globals.Content.Load<Texture2D>("King/KingWalkTop"), 4) },
@@ -47,7 +45,7 @@ internal class King : IFriendlyUnit
         };
         mAnimations = animations;
         mAnimationManager = new AnimationManager(mAnimations.First().Value);
-        mIfSelected = false;
+        IsSelected = false;
         mSaveManager = new SaveManager();
         mSoundManager = new SoundManager();
         mSoundManager.AddSoundEffect("Walk", "Audio\\SoundEffects\\WalkDirt");
@@ -55,19 +53,19 @@ internal class King : IFriendlyUnit
 
     public bool GetIfSelected()
     {
-        return mIfSelected;
+        return IsSelected;
     }
 
     private void Move(GameTime gameTime)
     {
-        if (mPath == null || 0 > mPath.Count - 1)
+        if (Path == null || 0 > Path.Count - 1)
         {
             return;
         }
 
-        if (MoveTowardsSpot(mPath[0], gameTime))
+        if (MoveTowardsSpot(Path[0], gameTime))
         {
-            mPath.RemoveAt(0);
+            Path.RemoveAt(0);
         }
     }
 
@@ -104,13 +102,13 @@ internal class King : IFriendlyUnit
 
         // mouseKingDist is distance between mouse last pick position and Unit position.
         var mouseKingDist = Vector2.Distance(Position, Globals.Mouse.mNewMousePos);
-        mIfSelected = mouseKingDist switch
+        IsSelected = mouseKingDist switch
         {
             // we set our flag to true if unit was never been selected.
-            < 17 when !mIfSelected => true,
+            < 17 when !IsSelected => true,
             // else mouse has been click but not on Unit we set our flag false.
             > 17 => false,
-            _ => mIfSelected
+            _ => IsSelected
         };
 
     }
@@ -231,11 +229,11 @@ internal class King : IFriendlyUnit
     /// <summary>
     /// return List of Path from this Object.
     /// </summary>
-    public List<Vector2> Path
-    {
-        get => mPath;
-        set => mPath = value;
-    }
+    public List<Vector2> Path { get; set; } = new List<Vector2>();
+
+    public bool IsSelected { get; set; }
+
+    public bool IsDead { get; set; }
 }
 
 // Will be implement later.

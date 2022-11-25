@@ -10,6 +10,6 @@ namespace KnightsOfLaCampus
     public class GameGlobals
     {
         public static int mGold = 0;
-        public static PassObject mPassMobs;
+        public static PassObject mPassMobs, mPassFriends, mPassGolds;
     }
 }

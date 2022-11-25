@@ -16,7 +16,7 @@ namespace KnightsOfLaCampus.Units;
 internal sealed class Knight : IFriendlyUnit
 {
     private Vector2 mPosition;
-    internal Vector2 mVelocity;
+    private Vector2 mVelocity;
 
     private readonly AnimationManager mAnimationManager;
 
@@ -27,12 +27,9 @@ internal sealed class Knight : IFriendlyUnit
 
     private readonly Dictionary<string, Animation> mAnimations;
 
-    private List<Vector2> mPath = new List<Vector2>();
-
-    private bool mIfSelected;
-
     internal Knight()
     {
+        IsDead = false;
         // load animation set from source folder in this case Content\\King\\...
         var animations = new Dictionary<string, Animation>()
         {
@@ -46,7 +43,7 @@ internal sealed class Knight : IFriendlyUnit
         mAnimationManager = new AnimationManager(animations.First().Value);
 
         // init by false.
-        mIfSelected = false;
+        IsSelected = false;
         mSaveManager = new SaveManager();
         mSoundManager = new SoundManager();
         // and sound effect to this object.
@@ -76,27 +73,27 @@ internal sealed class Knight : IFriendlyUnit
 
         // mouseKingDist is distance between mouse last pick position and Unit position.
         var mouseKingDist = Vector2.Distance(this.Position, Globals.Mouse.mNewMousePos);
-        mIfSelected = mouseKingDist switch
+        IsSelected = mouseKingDist switch
         {
             // we set our flag to true if unit was never been selected.
-            < 17 when !mIfSelected => true,
+            < 17 when !IsSelected => true,
             // else mouse has been click but not on Unit we set our flag false.
             > 17 => false,
-            _ => mIfSelected
+            _ => IsSelected
         };
 
     }
 
     private void Move(GameTime gameTime)
     {
-        if (mPath == null || 0 > mPath.Count - 1)
+        if (Path == null || 0 > Path.Count - 1)
         {
             return;
         }
 
-        if (MoveTowardsSpot(mPath[0], gameTime))
+        if (MoveTowardsSpot(Path[0], gameTime))
         {
-            mPath.RemoveAt(0);
+            Path.RemoveAt(0);
         }
     }
 
@@ -133,7 +130,7 @@ internal sealed class Knight : IFriendlyUnit
 
     public bool GetIfSelected()
     {
-        return mIfSelected;
+        return IsSelected;
     }
 
 
@@ -198,9 +195,9 @@ internal sealed class Knight : IFriendlyUnit
         set => mVelocity = value;
     }
 
-    public List<Vector2> Path
-    {
-        get => mPath;
-        set => mPath = value;
-    }
+    public List<Vector2> Path { get; set; } = new List<Vector2>();
+
+    public bool IsSelected { get; set; }
+
+    public bool IsDead { get; set; }
 }

@@ -7,6 +7,8 @@ namespace KnightsOfLaCampus.Source.Interfaces
     internal interface IFriendlyUnit
 
     {
+        public bool IsSelected { get; set; }
+        public bool IsDead { get; set; }
         public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }
         public List<Vector2> Path { get; set; }

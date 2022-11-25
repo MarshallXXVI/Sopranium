@@ -39,10 +39,7 @@ namespace KnightsOfLaCampus.Screens
         /// </summary>
         public abstract void LoadContent();
 
-        public void Update(GameTime gameTime)
-        {
-
-        }
+        public abstract void Update(GameTime gameTime);
 
         /// <summary>
         /// No further screen can be loaded after this one and therefore null is returned.

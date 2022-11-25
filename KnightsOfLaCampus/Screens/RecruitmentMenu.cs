@@ -56,7 +56,7 @@ namespace KnightsOfLaCampus.Screens
             CloseButton.LoadContent();
 
             // Buy-Buttons of each unit
-            mButtonBuyUnitSwordsman = new ButtonClick(new Vector2(ButtonBuyUnitX3, ButtonBuyUnitY), "BuyMenuButton", Color.Firebrick, Color.Firebrick);
+            mButtonBuyUnitSwordsman = new ButtonClick(new Vector2(ButtonBuyUnitX3, ButtonBuyUnitY), "BuyMenuButton", Color.Red, Color.Firebrick);
             mButtonBuyUnitSwordsman.LoadContent();
 
             mButtonBuyUnitKavallerie = new ButtonClick(new Vector2(ButtonBuyUnitX2, ButtonBuyUnitY), "BuyMenuButton", Color.Firebrick, Color.Firebrick);
@@ -74,11 +74,11 @@ namespace KnightsOfLaCampus.Screens
             #endregion
         }
 
-        public  void Update()
+        public override void Update(GameTime gameTime)
         {
             if (mButtonBuyUnitSwordsman.IsPressed())
             {
-                GameGlobals.mPassMobs(new Knight());
+                GameGlobals.mPassFriends(new Knight(){Position = new Vector2(1000, 700)});
             }
         }
 

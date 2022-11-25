@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using KnightsOfLaCampus.Source.Astar;
 using KnightsOfLaCampus.Source.Interfaces;
@@ -25,8 +26,6 @@ internal sealed class Player
 
     public readonly King mKing;
 
-    private readonly Knight mKnight;
-
     private readonly SoMuchOfSpots mPlayerField;
     private readonly List<IFriendlyUnit> mMyFriendlyUnits = new List<IFriendlyUnit>();
     private readonly List<IFriendlyUnit> mNowControlUnit = new List<IFriendlyUnit>();
@@ -42,47 +41,58 @@ internal sealed class Player
         mArrow = new Basic2D("Stuffs\\goThereArrow",
             new Vector2(16, 16),
             new Vector2(32, 32));
-        mKing = new King(){mVelocity = Vector2.Zero, Position = new Vector2(X + 32, Y + 32)};
-
-        // now Knight share same texture as King don't be confuse.
-        mKnight = new Knight() { mVelocity = Vector2.Zero, Position = new Vector2(X + 64, Y + 32) };
-        // test add some Friend to MyFriendlyUnits List. King is always ours Friend.
+        mKing = new King(){Position = new Vector2(X + 32, Y + 32)};
+        // King is always ours friend.
         mMyFriendlyUnits.Add(mKing);
-        mMyFriendlyUnits.Add(mKnight);
+        GameGlobals.mPassFriends = AddFriend;
     }
 
     internal void Update(GameTime gameTime)
     {
-        foreach (var mob in mMobs)
+        // testing enemy die.
+        foreach (var mob in mMobs.Where(mob => Vector2.Distance(mob.Position, mKing.Position) < 40))
         {
-            if (Vector2.Distance(mob.Position, mKing.Position) < 15)
-            {
-                mob.mIfDead = true;
-            }
+            GameGlobals.mPassGolds(new Gold(mob.Position, mKing));
+            mob.mIfDead = true;
         }
-        FriendUpdate();
-        mKnight.Update(gameTime);
-        mKing.Update(gameTime);
+        FriendUpdate(gameTime);
     }
 
     // Update always friend if our friend has flag true. we push him to our stack.
     // if none of them has flag true.
     // we clear our stack. this stack hold maximum 1 element.
-    private void FriendUpdate()
+    // and also update all friends if they are not dead.
+    // if all dead == lose.
+    private void FriendUpdate(GameTime gameTime)
     {
-        foreach (var friend in mMyFriendlyUnits)
+        if (mMyFriendlyUnits.Count > 0)
         {
-            if (friend.GetIfSelected() && mNowControlUnit.Count == 0)
+            for (var i = 0; i < mMyFriendlyUnits.Count; i++)
             {
-                mNowControlUnit.Add(friend);
+                mMyFriendlyUnits[i].Update(gameTime);
+                if (!mMyFriendlyUnits[i].IsDead)
+                {
+                    continue;
+                }
+
+                mMyFriendlyUnits.RemoveAt(i);
+                i--;
             }
-            else if(friend.GetIfSelected() && mNowControlUnit.Contains(friend))
+        }
+
+        foreach (var t in mMyFriendlyUnits)
+        {
+            if (t.GetIfSelected() && mNowControlUnit.Count == 0)
+            {
+                mNowControlUnit.Add(t);
+            }
+            else if(t.GetIfSelected() && mNowControlUnit.Contains(t))
             {
                 GivePathToUnit(mNowControlUnit[0], mPlayerField);
             }
-            else if (!friend.GetIfSelected() && mNowControlUnit.Contains(friend))
+            else if (!t.GetIfSelected() && mNowControlUnit.Contains(t))
             {
-                mNowControlUnit.Remove(friend);
+                mNowControlUnit.RemoveAt(0);
             }
         }
     }
@@ -138,10 +148,21 @@ internal sealed class Player
 
     }
 
+    /// <summary>
+    /// Pass object to mMyFriendlyUnits list can be any IFriendlyUnit.
+    /// </summary>
+    /// <param name="info"></param>
+    private void AddFriend(object info)
+    {
+        mMyFriendlyUnits.Add((IFriendlyUnit)info);
+    }
+
     internal void Draw(SpriteBatch spriteBatch)
     {
         DrawArrow();
-        mKnight.Draw(spriteBatch);
-        mKing.Draw(spriteBatch);
+        foreach (var friend in mMyFriendlyUnits)
+        {
+            friend.Draw(spriteBatch);
+        }
     }
 }
