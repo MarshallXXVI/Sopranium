@@ -8,16 +8,18 @@ using KnightsOfLaCampus.Units;
 using Microsoft.Xna.Framework.Audio;
 using TiledSharp;
 using System.Net.NetworkInformation;
+using KnightsOfLaCampus.UnitsGameObject;
 
 namespace KnightsOfLaCampus.Source;
 
-public class World
+internal sealed class World
 {
     private readonly Vector2 mOffSet;
     private readonly SoMuchOfSpots mPlayerField;
     private readonly Player mPlayer;
-    private readonly List<Enemy> mMobs = new List<Enemy>();
+    private readonly List<IEnemyUnit> mMobs = new List<IEnemyUnit>();
     private readonly List<Gold> mGolds = new List<Gold>();
+    private readonly List<Arrow> mArrows = new List<Arrow>();
     private readonly SpawnPoint mSpawnPoint;
     private readonly TileMapManager mMapManager;
 
@@ -35,29 +37,29 @@ public class World
         mMapManager = new TileMapManager(mapLevel1);
 
         // Import Player call Player.cs
-        mPlayer = new Player(mPlayerField, mMobs);
+        mPlayer = new Player(mPlayerField);
 
         mPlayerField.SetMap(mapLevel1);
 
         // Test set MusicBackground
         soundManager.ChangeMusic(0);
 
-        // Test if every body can find path.
+        // declare a function in GameGlobals to pass a object in to this world.
         GameGlobals.mPassMobs = AddEnemy;
         GameGlobals.mPassGolds = AddGold;
-
-        // more Enemy can be inherit from Enemy class with same method.
-        // Enemy has not marked as sealed can test it with inheritance.
+        GameGlobals.mPassArrow = AddArrow;
+        
+        // add Spawn point top mid of screen.
         mSpawnPoint = new SpawnPoint(mPlayer, mPlayerField, new Vector2(1000, 0));
 
     }
     internal void Update(GameTime gameTime)
     {
-        mPlayer.Update(gameTime);
-        for (var i = 0; i < mMobs.Count - 1; i++)
+        mPlayer.Update(gameTime, mMobs);
+        for (var i = 0; i < mMobs.Count; i++)
         {
             mMobs[i].Update(gameTime);
-            if (!mMobs[i].mIfDead)
+            if (!mMobs[i].IsDead)
             {
                 continue;
             }
@@ -79,6 +81,19 @@ public class World
             i--;
         }
 
+        for (var i = 0; i < mArrows.Count; i++)
+        {
+            mArrows[i].Update(mMobs,gameTime);
+
+            if (!mArrows[i].mIfDead)
+            {
+                continue;
+            }
+
+            mArrows.RemoveAt(i);
+            i--;
+        }
+        
         mSpawnPoint.Update(gameTime);
         mPlayerField.Update(mOffSet);
     }
@@ -86,12 +101,17 @@ public class World
     // throw a info in and cast a Enemy class and put it in to Mobs list.
     private void AddEnemy(object info)
     {
-        mMobs.Add((Enemy)info);
+        mMobs.Add((IEnemyUnit)info);
     }
-
+    // throw a info in and cast a Gold class and put it in to Golds list.
     private void AddGold(object info)
     {
         mGolds.Add((Gold)info);
+    }
+    // throw a info in and cast a Arrow class and put it in to Arrows list.
+    private void AddArrow(object info)
+    {
+        mArrows.Add((Arrow)info);
     }
 
 
@@ -107,6 +127,11 @@ public class World
         foreach (var enemy in mMobs)
         {
             enemy.Draw(spriteBatch);
+        }
+
+        foreach (var arrow in mArrows)
+        {
+            arrow.Draw(spriteBatch);
         }
 
         mPlayer.Draw(spriteBatch);

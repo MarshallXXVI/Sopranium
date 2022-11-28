@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
-using System;
 
 namespace KnightsOfLaCampus.Source;
-public delegate void PassObject(object i);
+
+internal delegate void PassObject(object i);
 internal static class Globals
 {
     // Some globals that we might use

@@ -7,9 +7,9 @@ using KnightsOfLaCampus.Source;
 
 namespace KnightsOfLaCampus
 {
-    public class GameGlobals
+    internal static class GameGlobals
     {
         public static int mGold = 0;
-        public static PassObject mPassMobs, mPassFriends, mPassGolds;
+        public static PassObject mPassMobs, mPassFriends, mPassGolds, mPassArrow;
     }
 }

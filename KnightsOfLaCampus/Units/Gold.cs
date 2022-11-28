@@ -7,7 +7,7 @@ namespace KnightsOfLaCampus.Units
     internal sealed class Gold
     {
             // This class represents the amount of gold on a GridBox which can be collected by the King
-            private Texture2D mTexture;
+            private readonly Texture2D mTexture;
             // Represents the Position on the used GridBox
             // Represents the actual Positions on the map which is inside the used GridBox but can be scaled
             // to fit the Texture better
@@ -23,8 +23,6 @@ namespace KnightsOfLaCampus.Units
                 mTexture = Globals.Content.Load<Texture2D>("Gold");
                 mPosition = position;
                 mKing = king;
-
-
             }
 
             // Checks if the King enters the GridBox of the Gold and if so sets Alive to false
@@ -32,11 +30,13 @@ namespace KnightsOfLaCampus.Units
             // the map, which is essentially the GridBox *
             public void Update()
             {
-                if (Vector2.Distance(mPosition, mKing.Position) < 10)
+                if (!(Vector2.Distance(mPosition, mKing.Position) < 10))
                 {
-                    GameGlobals.mGold += 5;
-                    mIfDead = true;
+                    return;
                 }
+
+                GameGlobals.mGold += mAmount;
+                mIfDead = true;
 
             }
 

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using KnightsOfLaCampus.Source;
 using KnightsOfLaCampus.Source.Astar;
+using KnightsOfLaCampus.UnitsGameObject;
+using KnightsOfLaCampus.UnitsGameObject.Enemies;
 using Microsoft.Xna.Framework;
 
 namespace KnightsOfLaCampus.Units
@@ -13,8 +15,8 @@ namespace KnightsOfLaCampus.Units
     {
         private readonly Player mPlayer;
         private readonly SoMuchOfSpots mField;
-        private Vector2 mPosition;
-        public McTimer mSpawnTimer = new McTimer(1800);
+        private readonly Vector2 mPosition;
+        public readonly McTimer mSpawnTimer = new McTimer(1800);
         public SpawnPoint(Player target, SoMuchOfSpots field,
             Vector2 position)
         {
@@ -26,16 +28,18 @@ namespace KnightsOfLaCampus.Units
         public void Update(GameTime gameTime)
         {
             mSpawnTimer.UpdateTimer(gameTime);
-            if (mSpawnTimer.Test())
+            if (!mSpawnTimer.Test())
             {
-                SpawnMob();
-                mSpawnTimer.ResetToZero();
+                return;
             }
+
+            SpawnMob();
+            mSpawnTimer.ResetToZero();
         }
 
         private void SpawnMob()
         {
-            GameGlobals.mPassMobs(new Enemy(mPlayer, mField){Position = mPosition});
+            GameGlobals.mPassMobs(new BadGuy(mPlayer, mField){Position = mPosition});
         }
     }
     

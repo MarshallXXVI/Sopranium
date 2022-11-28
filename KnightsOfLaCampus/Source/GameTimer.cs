@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace KnightsOfLaCampus.Source
 {
     //This class sets the Game Time for day and a night.
-    internal class GameTimer
+    internal sealed class GameTimer
     {
         private readonly Texture2D mTexture;
         private readonly Vector2 mPosition;

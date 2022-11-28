@@ -11,5 +11,6 @@ namespace KnightsOfLaCampus.Saves
 
         // The King's Position is allways the first
         public static Vector2 KingPositon { get; set; }
+        public static int Gold { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KnightsOfLaCampus.UnitsGameObject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -15,7 +16,7 @@ namespace KnightsOfLaCampus.Source.Interfaces
         public bool GetIfSelected();
         public void AudioUpdate();
         public void GraphicsUpdate();
-        public void Update(GameTime gameTime);
+        public void Update(GameTime gameTime, List<IEnemyUnit> enemies);
         public void Draw(SpriteBatch spriteBatch);
     }
 }

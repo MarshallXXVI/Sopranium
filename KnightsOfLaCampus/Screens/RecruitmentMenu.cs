@@ -94,7 +94,7 @@ namespace KnightsOfLaCampus.Screens
             if (mButtonBuyUnitBogenschuetze.IsPressed() && GameGlobals.mGold >= 10)
             {
                 GameGlobals.mGold -= 10;
-                GameGlobals.mPassFriends(new Knight() { Position = new Vector2(1000, 700) });
+                GameGlobals.mPassFriends(new Archer() { Position = new Vector2(1000, 700) });
             }
         }
 

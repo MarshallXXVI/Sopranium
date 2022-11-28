@@ -5,7 +5,7 @@ using Color = Microsoft.Xna.Framework.Color;
 
 namespace KnightsOfLaCampus.Source;
 
-internal sealed class Basic2D
+internal class Basic2D
 {
     private const int Int2 = 2;
 

@@ -1,15 +1,12 @@
 ﻿using KnightsOfLaCampus.Managers;
-using KnightsOfLaCampus.Saves;
 using KnightsOfLaCampus.Source;
 using KnightsOfLaCampus.Source.Interfaces;
+using KnightsOfLaCampus.UnitsGameObject;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnightsOfLaCampus.Units;
 
@@ -50,7 +47,7 @@ internal sealed class Knight : IFriendlyUnit
         mSoundManager.AddSoundEffect("Walk", "Audio\\SoundEffects\\WalkDirt");
     }
 
-    public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime, List<IEnemyUnit> enemies)
     {
         CheckIfSelected();
         Move(gameTime);

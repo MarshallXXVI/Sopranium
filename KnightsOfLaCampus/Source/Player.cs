@@ -1,61 +1,70 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using KnightsOfLaCampus.Source.Astar;
 using KnightsOfLaCampus.Source.Interfaces;
 using KnightsOfLaCampus.Units;
+using KnightsOfLaCampus.UnitsGameObject;
+using KnightsOfLaCampus.UnitsGameObject.Friends;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KnightsOfLaCampus.Source;
 
 internal sealed class Player
 {
-    // will be later implement.
-    // first goal is allocate new Sprite which is King and trying to Manipulate him by MouseClick. (done)
-    // check which character is being control now King himself or his army.
-    // (Only king is done) his army can inherit from him;
-
-    // after that trying to control multiple target according to GDD.
+    // bug unit sliding sometimes after start moving.
+    // TODO:: test or try ignore first element Vector2D of path. It might caused buffer position.
 
     // Coordinate that King will be Spawn.
-
     private const int X = (Globals.ScreenWidth / 2) + 15;
     private const int Y = (Globals.ScreenHeight / 2) + 15;
 
     public readonly King mKing;
-
+    public readonly Kaiser mKaiser;
+    public readonly Sniper mSniper;
     private readonly SoMuchOfSpots mPlayerField;
     private readonly List<IFriendlyUnit> mMyFriendlyUnits = new List<IFriendlyUnit>();
     private readonly List<IFriendlyUnit> mNowControlUnit = new List<IFriendlyUnit>();
     private readonly SoundEffect mHitEffect;
-    private readonly Basic2D mArrow;
-    private readonly List<Enemy> mMobs;
+    private readonly Basic2D mGoThereArrow;
 
-    internal Player(SoMuchOfSpots grid, List<Enemy> mobs)
+    internal Player(SoMuchOfSpots grid)
     {
         mPlayerField = grid;
-        mMobs = mobs;
         mHitEffect = Globals.Content.Load<SoundEffect>("Stuffs\\Logo_hit");
-        mArrow = new Basic2D("Stuffs\\goThereArrow",
+        mGoThereArrow = new Basic2D("Stuffs\\goThereArrow",
             new Vector2(16, 16),
             new Vector2(32, 32));
         mKing = new King(){Position = new Vector2(X + 32, Y + 32)};
+
+
         // King is always ours friend.
         mMyFriendlyUnits.Add(mKing);
+
+        // Archer can buy from recruitment screen. actually every unit can be bought from recruitment screen.
+        // But will get only Knight that look like King or aka SwordMan.
+
+        // these 2 classes were inherit from Friend class and Friend class has IFriendlyUnit interface.
+        // less redundancy.
+        mKaiser = new Kaiser() { Position = new Vector2(X + 64, Y + 32) };
+        mSniper = new Sniper() { Position = new Vector2(X + 64, Y + 64) };
+        mMyFriendlyUnits.Add(mKaiser); // he is King in another universe.
+        mMyFriendlyUnits.Add(mSniper); // he is Archer in another dimension.
+
+        // declare function to pass to Friends list.
         GameGlobals.mPassFriends = AddFriend;
     }
 
-    internal void Update(GameTime gameTime)
+    internal void Update(GameTime gameTime, List<IEnemyUnit> enemies)
     {
-        // testing enemy die.
-        foreach (var mob in mMobs.Where(mob => Vector2.Distance(mob.Position, mKing.Position) < 40))
+        // testing enemy die. if they move too close to King, they die and drop gold.
+        foreach (var mob in enemies.Where(mob => Vector2.Distance(mob.Position, mKing.Position) < 40))
         {
             GameGlobals.mPassGolds(new Gold(mob.Position, mKing));
-            mob.mIfDead = true;
+            mob.IsDead = true;
         }
-        FriendUpdate(gameTime);
+        FriendUpdate(gameTime, enemies);
     }
 
     // Update always friend if our friend has flag true. we push him to our stack.
@@ -63,13 +72,13 @@ internal sealed class Player
     // we clear our stack. this stack hold maximum 1 element.
     // and also update all friends if they are not dead.
     // if all dead == lose.
-    private void FriendUpdate(GameTime gameTime)
+    private void FriendUpdate(GameTime gameTime, List<IEnemyUnit> enemies)
     {
         if (mMyFriendlyUnits.Count > 0)
         {
             for (var i = 0; i < mMyFriendlyUnits.Count; i++)
             {
-                mMyFriendlyUnits[i].Update(gameTime);
+                mMyFriendlyUnits[i].Update(gameTime, enemies);
                 if (!mMyFriendlyUnits[i].IsDead)
                 {
                     continue;
@@ -141,7 +150,7 @@ internal sealed class Player
             {
                 if (((int)mPlayerField.mCurrentHoverSlot.X == j && (int)mPlayerField.mCurrentHoverSlot.Y == k) && !mPlayerField.mGrid[j][k].mIfFilled && mNowControlUnit.Count == 1)
                 {
-                    mArrow.Draw(new Vector2(j * 32, k * 32));
+                    mGoThereArrow.Draw(new Vector2(j * 32, k * 32));
                 }
             }
         }
