@@ -8,6 +8,7 @@ internal static class Globals
 {
     // Some globals that we might use
     public static World mWorld;
+    public static byte mBrightness;
     public static bool mLoadGame = false;
     public static bool mQuitGame = false;
     public const int ScreenWidth = 1920;

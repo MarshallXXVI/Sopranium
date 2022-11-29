@@ -11,12 +11,12 @@ using Microsoft.Xna.Framework;
 
 namespace KnightsOfLaCampus.Units
 {
-    internal class SpawnPoint
+    internal sealed class SpawnPoint
     {
         private readonly Player mPlayer;
         private readonly SoMuchOfSpots mField;
         private readonly Vector2 mPosition;
-        public readonly McTimer mSpawnTimer = new McTimer(1800);
+        private readonly McTimer mSpawnTimer = new McTimer(1800);
         public SpawnPoint(Player target, SoMuchOfSpots field,
             Vector2 position)
         {

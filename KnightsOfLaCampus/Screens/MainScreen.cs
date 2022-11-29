@@ -112,6 +112,7 @@ namespace KnightsOfLaCampus.Screens
         public IScreen NextScreen()
         {
             // When there are no save states yet
+            // If new game pressed everything will be reset.
             if (mNewGameButton.IsPressed())
             {
                 mSoundManager.ChangeMusic(0);
@@ -120,7 +121,7 @@ namespace KnightsOfLaCampus.Screens
                 return new GameScreen();
             }
 
-            // If there are saved variables, its possible to load a savegame
+            // If there are saved variables, its possible to load a savegame.
             if (mLoadGameButton.IsPressed())
             {
                 mSoundManager.ChangeMusic(0);

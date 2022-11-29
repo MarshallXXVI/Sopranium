@@ -17,15 +17,15 @@ namespace KnightsOfLaCampus.Screens
 
         // what will hold in this class Player.cs World.cs and LevelManager.cs
 
-        private World mWorld;
 
         // TODO Temporary buttons -> later with left click 
         private Button mBuy;
         private Button mRepair;
         private Button mPause;
+        private Button mSkipDay;
 
         //Declaration Timer
-        private GameTimer mTimer;
+        //Move to Globals.
         private SpriteFont mFont;
 
         // Position of Timer
@@ -33,7 +33,7 @@ namespace KnightsOfLaCampus.Screens
         private const int TimerPositionY = 16;
 
         //shows how many Days and Nights, /2 and you get how many Nights for example
-        private int mCounter;
+        //private int mCounter;
         private float mTime;
 
         /// <summary>
@@ -52,38 +52,29 @@ namespace KnightsOfLaCampus.Screens
         /// </summary>
         public void LoadContent()
         {
-            Globals.mWorld = new World();
             // Loading the Temporary buttons
-            mRepair = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 20), "BuyButton", Color.Gray, Color.Gray);
+            mRepair = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 20), "BuyButton", Color.Green, Color.Gray);
             mRepair.LoadContent();
 
-            mBuy = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 50), "RepairButton", Color.Gray, Color.Gray);
+            mBuy = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 50), "RepairButton", Color.Green, Color.Gray);
             mBuy.LoadContent();
 
-            mPause = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 80), "PauseButton", Color.Gray, Color.Gray);
+            mPause = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 80), "PauseButton", Color.Green, Color.Gray);
             mPause.LoadContent();
+
+            mSkipDay = new ButtonClick(new Vector2(TimerPositionX + 300, TimerPositionY), "SkipDay", Color.Red, Color.Green);
+            mSkipDay.LoadContent();
 
             //Loading the Timer 600f means 600s = 10min for 1 day or night
             mFont = Globals.Content.Load<SpriteFont>("font");
-            mTimer = new GameTimer(Globals.Content.Load<Texture2D>("UI\\Background\\TimeBackgroundDay"),
+            GameGlobals.mTimer = new GameTimer(Globals.Content.Load<Texture2D>("UI\\Background\\TimeBackgroundDay"),
                 mFont,
                 new(TimerPositionX, TimerPositionY),
-                600f
+                60f
             );
-            //Example how to use an Event (to increase an int)
-            mTimer.OnTimer += IncreaseCounter;
-            //starting the Timer with Repeat (Restart after Day/Night)
-            mTimer.StartStop();
-            mTimer.Repeat = true;
-        }
-
-        /// <summary>
-        /// Counts the Day and Nights, could be for an Achievement later
-        /// and for the statistics how many Nights are survived
-        /// </summary>
-        public void IncreaseCounter(object sender, EventArgs e)
-        {
-            mCounter++;
+            GameGlobals.mTimer.StartStop();
+            GameGlobals.mTimer.Repeat = true;
+            Globals.mWorld = new World();
         }
 
         public void Update(GameTime gameTime)
@@ -93,7 +84,11 @@ namespace KnightsOfLaCampus.Screens
             Globals.Mouse.UpdateOld();
             //Update the timer with the mTime Variable in Source/GameTimer
             mTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            mTimer.Update(mTime);
+            GameGlobals.mTimer.Update(mTime);
+            if (mSkipDay.IsPressed())
+            {
+                GameGlobals.mTimer.mTimeLeft = 5f;
+            }
         }
 
         /// <summary>
@@ -146,8 +141,9 @@ namespace KnightsOfLaCampus.Screens
             mRepair.Draw(Globals.SpriteBatch);
             mBuy.Draw(Globals.SpriteBatch);
             mPause.Draw(Globals.SpriteBatch);
+            mSkipDay.Draw(Globals.SpriteBatch);
             //Draw Timer
-            mTimer.Draw();
+            GameGlobals.mTimer.Draw();
             Globals.SpriteBatch.DrawString(mFont, "GOLDS: " + GameGlobals.mGold.ToString(), new Vector2(32, 80), Color.Red);
         }
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using KnightsOfLaCampus.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,14 +18,15 @@ namespace KnightsOfLaCampus.Source;
 
 internal sealed class World
 {
+    private bool mIfDay = true;
     private readonly Vector2 mOffSet;
     private readonly SoMuchOfSpots mPlayerField;
-    public readonly Player mPlayer;
-    public readonly List<IEnemyUnit> mMobs = new List<IEnemyUnit>();
     private readonly List<Gold> mGolds = new List<Gold>();
     private readonly List<Arrow> mArrows = new List<Arrow>();
     private readonly SpawnPoint mSpawnPoint;
     private readonly TileMapManager mMapManager;
+    public readonly Player mPlayer;
+    public readonly List<IEnemyUnit> mMobs = new List<IEnemyUnit>();
 
 
     internal World()
@@ -62,6 +65,26 @@ internal sealed class World
     }
     internal void Update(GameTime gameTime)
     {
+        //Trace.WriteLine(GameGlobals.mLevel);
+        // testing dimming the screen shifting from day to night.
+        if (GameGlobals.mTimer.mTimeLeft < 1f)
+        {
+            switch (mIfDay)
+            {
+                case true:
+                    mIfDay = false;
+                    GameGlobals.mTimer.Reset();
+                    GameGlobals.mLevel++;
+                    break;
+                case false:
+                    mIfDay = true;
+                    GameGlobals.mTimer.Reset();
+                    break;
+            }
+        }
+
+        Globals.mBrightness = mIfDay ? (byte)100 : (byte)15;
+
         mPlayer.Update(gameTime, mMobs);
         for (var i = 0; i < mMobs.Count; i++)
         {
@@ -136,7 +159,9 @@ internal sealed class World
             }
         }
 
-        GameGlobals.mGold = JsonManager.LoadGameValue();
+        GameGlobals.mGold = JsonManager.LoadGameValue()!.Gold;
+        GameGlobals.mTimer.mTimeLeft = JsonManager.LoadGameValue()!.TimeLeft;
+        GameGlobals.mLevel = JsonManager.LoadGameValue()!.Level;
     }
 
     internal void Draw(SpriteBatch spriteBatch)

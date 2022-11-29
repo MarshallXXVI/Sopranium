@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework;
 
 namespace KnightsOfLaCampus.Saves
 {
+
+    // struct of SaveObject such as
     // mId is UnitID.
     // 0 = King.
     // 1 = Swordsman.
@@ -27,9 +29,27 @@ namespace KnightsOfLaCampus.Saves
         public int Id { get; set; }
         public float PositionX { get; set; }
         public float PositionY { get; set; }
+
+        //TODO ADD HP.
+    }
+
+    // Value that must be save.
+    public sealed class SaveValue
+    {
+        public int Gold { get; set; }
+        public int Level { get; set; }
+        public int MapId { get; set; }
+        public float TimeLeft { get; set; }
+        public bool Day { get; set; }
     }
     internal static class JsonManager
     {
+        /// <summary>
+        ///  Go through all movable or a Object that has position on field.
+        ///  And same them as a list in format of Json.
+        ///  [{object1},{object2}, .. {object_}] is a valid form List of Json.
+        /// </summary>
+        /// <param name="info"></param>
         public static void SaveGameObject(World info)
         {
             var saveContent = "[";
@@ -77,13 +97,21 @@ namespace KnightsOfLaCampus.Saves
             SaveGameValue();
         }
 
+        /// <summary>
+        /// Save a important value in extra file of Json.
+        /// </summary>
         private static void SaveGameValue()
         {
             //TODO ADD ALL SINGLE VALUE SUCH AS AMOUNT OF GOLD, LEVEL, MapID, TIME.
-            var value = JsonSerializer.Serialize(GameGlobals.mGold);
+            var saveValue = new SaveValue();
+            saveValue.Gold = GameGlobals.mGold;
+            saveValue.TimeLeft = GameGlobals.mTimer.mTimeLeft;
+            saveValue.Level = GameGlobals.mLevel;
+            var value = JsonSerializer.Serialize(saveValue);
             File.WriteAllText("saveValue.json", value);
         }
 
+        // read save.json object and return as a List of SaveObject.
         public static List<SaveObject>? LoadGameObjects()
         {
             var saveObjects =
@@ -91,9 +119,11 @@ namespace KnightsOfLaCampus.Saves
             return saveObjects ?? null;
         }
 
-        public static int LoadGameValue()
+        // read saveValue.json and return SaveValue object.
+        public static SaveValue? LoadGameValue()
         {
-            var saveValue = JsonSerializer.Deserialize<int>(File.ReadAllText("saveValue.json"));
+            // return now just value of Gold.
+            var saveValue = JsonSerializer.Deserialize<SaveValue>(File.ReadAllText("saveValue.json"));
             return saveValue;
         }
     }

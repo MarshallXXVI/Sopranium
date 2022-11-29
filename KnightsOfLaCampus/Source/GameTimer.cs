@@ -18,7 +18,7 @@ namespace KnightsOfLaCampus.Source
         private readonly Vector2 mTextPosition;
         private string mText;
         private readonly float mTimeLength;
-        private float mTimeLeft;
+        public float mTimeLeft;
         private bool mIsActive;
         public bool Repeat { get; set; }
 
