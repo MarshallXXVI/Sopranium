@@ -18,6 +18,7 @@ namespace KnightsOfLaCampus.UnitsGameObject
     /// </summary>
     internal abstract class Friend : IFriendlyUnit
     {
+        public abstract int Id { get; set; }
         protected bool mIsDead;
         private Vector2 mPosition;
 

@@ -7,6 +7,8 @@ internal delegate void PassObject(object i);
 internal static class Globals
 {
     // Some globals that we might use
+    public static World mWorld;
+    public static bool mLoadGame = false;
     public static bool mQuitGame = false;
     public const int ScreenWidth = 1920;
     public const int ScreenHeight = 1080;

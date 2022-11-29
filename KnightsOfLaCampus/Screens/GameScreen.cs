@@ -52,8 +52,7 @@ namespace KnightsOfLaCampus.Screens
         /// </summary>
         public void LoadContent()
         {
-            mWorld = new World();
-
+            Globals.mWorld = new World();
             // Loading the Temporary buttons
             mRepair = new ButtonClick(new Vector2(Globals.ScreenWidth - 100, 20), "BuyButton", Color.Gray, Color.Gray);
             mRepair.LoadContent();
@@ -90,7 +89,7 @@ namespace KnightsOfLaCampus.Screens
         public void Update(GameTime gameTime)
         {
             Globals.Mouse.Update();
-            mWorld.Update(gameTime);
+            Globals.mWorld.Update(gameTime);
             Globals.Mouse.UpdateOld();
             //Update the timer with the mTime Variable in Source/GameTimer
             mTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -141,7 +140,7 @@ namespace KnightsOfLaCampus.Screens
         /// </summary>
         public void Draw()
         {
-            mWorld.Draw(Globals.SpriteBatch);
+            Globals.mWorld.Draw(Globals.SpriteBatch);
 
             // Drawing the Temporary buttons
             mRepair.Draw(Globals.SpriteBatch);

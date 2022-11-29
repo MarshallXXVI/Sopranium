@@ -15,6 +15,7 @@ namespace KnightsOfLaCampus.UnitsGameObject.Friends
 {
     internal sealed class Sniper : Friend
     {
+        private const int UnitId = 22;
         private const int SniperXOffset = 9;
 
         private const int SniperYOffset = 24;
@@ -51,6 +52,12 @@ namespace KnightsOfLaCampus.UnitsGameObject.Friends
             Velocity = Vector2.Zero;
         }
 
+        public override int Id
+        {
+            get => UnitId;
+            set => throw new NotImplementedException();
+        }
+
         private void Shoot(IEnumerable<IEnemyUnit> enemy, GameTime gameTime)
         {
             mArrowTimer.UpdateTimer(gameTime);
@@ -60,6 +67,7 @@ namespace KnightsOfLaCampus.UnitsGameObject.Friends
                 mArrowTimer.ResetToZero();
             }
         }
+
 
         public override void AudioUpdate()
         {

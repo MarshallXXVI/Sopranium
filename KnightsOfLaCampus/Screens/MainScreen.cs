@@ -115,6 +115,8 @@ namespace KnightsOfLaCampus.Screens
             if (mNewGameButton.IsPressed())
             {
                 mSoundManager.ChangeMusic(0);
+                Globals.mLoadGame = false;
+                GameGlobals.mGold = 0;
                 return new GameScreen();
             }
 
@@ -122,7 +124,7 @@ namespace KnightsOfLaCampus.Screens
             if (mLoadGameButton.IsPressed())
             {
                 mSoundManager.ChangeMusic(0);
-                SavedVariables.LoadSavedVariables = true;
+                Globals.mLoadGame = true;
                 return new GameScreen();
             }
 

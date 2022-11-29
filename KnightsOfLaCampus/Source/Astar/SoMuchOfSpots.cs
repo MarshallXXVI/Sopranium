@@ -16,9 +16,10 @@ internal sealed class SoMuchOfSpots
     // call Spots.cs
     internal readonly List<List<Spots>> mGrid = new List<List<Spots>>();
 
-    private bool mShowGrid;
+    private readonly bool mShowGrid;
 
-    private Vector2 mGridDims, mSpotDims;
+    private Vector2 mGridDims;
+    private readonly Vector2 mSpotDims;
 
     private readonly Vector2 mPhysicalStartPos, mTotalPhysicalDims;
 

@@ -29,8 +29,6 @@ internal abstract class Enemy : IEnemyUnit
 
     protected SoundManager mSoundManager;
 
-    protected SaveManager mSaveManager;
-
     protected Dictionary<string, Animation> mAnimations;
 
     protected IFriendlyUnit mTarget;
@@ -38,6 +36,8 @@ internal abstract class Enemy : IEnemyUnit
     protected SoMuchOfSpots mEnemyField;
 
     private List<Vector2> mPath = new List<Vector2>();
+
+    public abstract int Id { get; }
 
     public Vector2 Position
     {
@@ -54,6 +54,7 @@ internal abstract class Enemy : IEnemyUnit
     }
 
     public float HitDist { get => mHitDist; set => mHitDist = value; }
+
     public bool IsDead
     {
         get => mIfDead;

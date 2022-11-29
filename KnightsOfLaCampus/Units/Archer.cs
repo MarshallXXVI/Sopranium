@@ -212,6 +212,7 @@ internal sealed class Archer : IFriendlyUnit
 
     public List<Vector2> Path { get; set; } = new List<Vector2>();
 
+    public int Id { get; set; }
     public bool IsSelected { get; set; }
 
     public bool IsDead { get; set; }

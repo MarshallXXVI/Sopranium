@@ -13,6 +13,8 @@ namespace KnightsOfLaCampus.UnitsGameObject.Enemies
 {
     internal sealed class BadGuy : Enemy
     {
+        private const int UnitId = 5;
+
         internal BadGuy(Player target, SoMuchOfSpots field)
         {
             mIfDead = false;
@@ -28,12 +30,13 @@ namespace KnightsOfLaCampus.UnitsGameObject.Enemies
             };
             mAnimations = animations;
             mAnimationManager = new AnimationManager(animations.First().Value);
-            mSaveManager = new SaveManager();
             mSoundManager = new SoundManager();
             mSoundManager.AddSoundEffect("Walk", "Audio\\SoundEffects\\WalkDirt");
             mTarget = target.mKaiser;
             mEnemyField = field;
         }
+
+        public override int Id => UnitId;
 
         public override void Update(GameTime gameTime)
         {

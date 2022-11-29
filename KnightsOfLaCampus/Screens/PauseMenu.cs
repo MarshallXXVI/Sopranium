@@ -1,4 +1,6 @@
-﻿using KnightsOfLaCampus.Buttons;
+﻿using System.Reflection.Metadata.Ecma335;
+using KnightsOfLaCampus.Buttons;
+using KnightsOfLaCampus.Saves;
 using KnightsOfLaCampus.Source;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -52,8 +54,16 @@ namespace KnightsOfLaCampus.Screens
         public override bool BackToMenu()
         {
             // TODO Speichern
-            return mButtonBackToMenu.IsPressed();
+            if (mButtonBackToMenu.IsPressed())
+            {
+                JsonManager.SaveGameObject(Globals.mWorld);
+                return true;
+            }
+
+
+            return false;
         }
+
 
         /// <summary>
         /// Draws all buttons and the background

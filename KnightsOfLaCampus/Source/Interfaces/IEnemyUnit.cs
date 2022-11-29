@@ -10,6 +10,7 @@ namespace KnightsOfLaCampus.Source.Interfaces
 {
     internal interface IEnemyUnit
     {
+        public int Id { get; }
         public bool IsDead { get; set; }
         public float HitDist { get; set; }
         public Vector2 Velocity { get; set; }

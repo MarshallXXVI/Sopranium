@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using KnightsOfLaCampus.Saves;
 using KnightsOfLaCampus.Source.Interfaces;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -14,8 +15,8 @@ namespace KnightsOfLaCampus.Units;
 
 internal sealed class King : IFriendlyUnit
 {
-    public int mGold;
-    private Vector2 mPosition;
+    private const int UnitId = 0;
+    private  Vector2 mPosition;
     private Vector2 mVelocity;
 
     private const int KingXOffset = 16;
@@ -234,6 +235,7 @@ internal sealed class King : IFriendlyUnit
     /// </summary>
     public List<Vector2> Path { get; set; } = new List<Vector2>();
 
+    public int Id => UnitId;
     public bool IsSelected { get; set; }
 
     public bool IsDead { get; set; }

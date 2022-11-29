@@ -1,6 +1,7 @@
 ﻿using KnightsOfLaCampus.Buttons;
 using KnightsOfLaCampus.Source;
 using KnightsOfLaCampus.Units;
+using KnightsOfLaCampus.UnitsGameObject.Friends;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -79,17 +80,17 @@ namespace KnightsOfLaCampus.Screens
             if (mButtonBuyUnitSwordsman.IsPressed() && GameGlobals.mGold >= 10)
             {
                 GameGlobals.mGold -= 10;
-                GameGlobals.mPassFriends(new Knight(){Position = new Vector2(900, 700)});
+                GameGlobals.mPassFriends(new Sniper(){Position = new Vector2(900, 700)});
             }
             if (mButtonBuyUnitKavallerie.IsPressed() && GameGlobals.mGold >= 200)
             {
                 GameGlobals.mGold -= 200;
-                GameGlobals.mPassFriends(new Knight() { Position = new Vector2(1100, 700) });
+                GameGlobals.mPassFriends(new Sniper() { Position = new Vector2(1100, 700) });
             }
             if (mButtonBuyUnitHeilerin.IsPressed() && GameGlobals.mGold >= 10)
             {
                 GameGlobals.mGold -= 10;
-                GameGlobals.mPassFriends(new Knight() { Position = new Vector2(1200, 700) });
+                GameGlobals.mPassFriends(new Sniper() { Position = new Vector2(1200, 700) });
             }
             if (mButtonBuyUnitBogenschuetze.IsPressed() && GameGlobals.mGold >= 10)
             {

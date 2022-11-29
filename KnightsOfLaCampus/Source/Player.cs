@@ -19,12 +19,11 @@ internal sealed class Player
     // Coordinate that King will be Spawn.
     private const int X = (Globals.ScreenWidth / 2) + 15;
     private const int Y = (Globals.ScreenHeight / 2) + 15;
-
     public readonly King mKing;
     public readonly Kaiser mKaiser;
     public readonly Sniper mSniper;
     private readonly SoMuchOfSpots mPlayerField;
-    private readonly List<IFriendlyUnit> mMyFriendlyUnits = new List<IFriendlyUnit>();
+    public readonly List<IFriendlyUnit> mMyFriendlyUnits = new List<IFriendlyUnit>();
     private readonly List<IFriendlyUnit> mNowControlUnit = new List<IFriendlyUnit>();
     private readonly SoundEffect mHitEffect;
     private readonly Basic2D mGoThereArrow;

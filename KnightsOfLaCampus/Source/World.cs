@@ -8,7 +8,9 @@ using KnightsOfLaCampus.Units;
 using Microsoft.Xna.Framework.Audio;
 using TiledSharp;
 using System.Net.NetworkInformation;
+using KnightsOfLaCampus.Saves;
 using KnightsOfLaCampus.UnitsGameObject;
+using KnightsOfLaCampus.UnitsGameObject.Enemies;
 
 namespace KnightsOfLaCampus.Source;
 
@@ -16,8 +18,8 @@ internal sealed class World
 {
     private readonly Vector2 mOffSet;
     private readonly SoMuchOfSpots mPlayerField;
-    private readonly Player mPlayer;
-    private readonly List<IEnemyUnit> mMobs = new List<IEnemyUnit>();
+    public readonly Player mPlayer;
+    public readonly List<IEnemyUnit> mMobs = new List<IEnemyUnit>();
     private readonly List<Gold> mGolds = new List<Gold>();
     private readonly List<Arrow> mArrows = new List<Arrow>();
     private readonly SpawnPoint mSpawnPoint;
@@ -48,9 +50,14 @@ internal sealed class World
         GameGlobals.mPassMobs = AddEnemy;
         GameGlobals.mPassGolds = AddGold;
         GameGlobals.mPassArrow = AddArrow;
-        
+
         // add Spawn point top mid of screen.
         mSpawnPoint = new SpawnPoint(mPlayer, mPlayerField, new Vector2(1000, 0));
+
+        if (Globals.mLoadGame)
+        {
+            LoadSaveGame();
+        }
 
     }
     internal void Update(GameTime gameTime)
@@ -114,6 +121,23 @@ internal sealed class World
         mArrows.Add((Arrow)info);
     }
 
+    private void LoadSaveGame()
+    {
+        foreach (var thing in JsonManager.LoadGameObjects()!)
+        {
+            if (thing.Id == 0)
+            {
+                mPlayer.mKing.Position = new Vector2(thing.PositionX, thing.PositionY);
+            }
+
+            if (thing.Id == 5)
+            {
+                mMobs.Add(new BadGuy(mPlayer, mPlayerField){Position = new Vector2(thing.PositionX, thing.PositionY)});
+            }
+        }
+
+        GameGlobals.mGold = JsonManager.LoadGameValue();
+    }
 
     internal void Draw(SpriteBatch spriteBatch)
     {

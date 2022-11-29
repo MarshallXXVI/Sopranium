@@ -14,10 +14,9 @@ namespace KnightsOfLaCampus.UnitsGameObject.Friends
 {
     internal sealed class Kaiser : Friend
     {
+        private const int UnitId = 20;
         private const int KingXOffset = 9;
-
         private const int KingYOffset = 24;
-
 
         public Kaiser()
         {
@@ -47,6 +46,12 @@ namespace KnightsOfLaCampus.UnitsGameObject.Friends
             AudioUpdate();
             mAnimationManager.Update(gameTime);
             Velocity = Vector2.Zero;
+        }
+
+        public override int Id
+        {
+            get => UnitId;
+            set => throw new NotImplementedException();
         }
 
         public override void AudioUpdate()
